@@ -23,16 +23,22 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/settings">
+            <a class="nav-link" href="/acharya">
                 <i class="bi bi-person fs-4"></i>
                 <span class="menu-title">Acharyas</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/settings">
+            <a class="nav-link" href="/photogallery">
                 <i class="bi bi-columns-gap fs-5"></i>
-                <span class="menu-title">Gallery</span>
+                <span class="menu-title">Photo Gallery</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/settings">
+               <i class="bi bi-play-circle fs-5"></i>
+                <span class="menu-title">Video Gallery</span>
             </a>
         </li>
 

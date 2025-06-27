@@ -70,7 +70,6 @@ public function store(Request $request)
                 $path = $file->storeAs('prasadi_images', $filename, 'public');
                 $prasadi->prasadi_image = $path;
             }
-
             $prasadi->save();
         }
     }
@@ -94,7 +93,7 @@ public function store(Request $request)
      */
     public function show(string $id)
     {
-        
+
     }
 
     /**
