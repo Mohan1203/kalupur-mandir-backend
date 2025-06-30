@@ -14,7 +14,8 @@ class PhotogalleryController extends Controller
     public function index()
     {
         $images = PhotoGallery::all();
-        return view("admin.photogallery.photogallery",compact('images'));
+        $subImages = SubPhotoGallery::all();
+        return view("admin.photogallery.photogallery",compact('images','subImages'));
     }
 
     /**
@@ -93,7 +94,16 @@ class PhotogalleryController extends Controller
      */
     public function edit(string $id)
     {
-        
+        return view('admin.photogallery.editphotogallery',[
+            'image' => PhotoGallery::findOrFail($id)
+        ]);
+    }
+
+    public function editSubPhoto(string $id)
+    {
+        return view('admin.photogallery.editsubphotogallery',[
+            'image' => SubPhotoGallery::findOrFail($id)
+        ]);
     }
 
     /**
@@ -101,7 +111,23 @@ class PhotogalleryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            $gallery_image = PhotoGallery::where('id',$id)->first();
+            $gallery_image->title = $request->title;
+            if($request->hasFile('image')){
+                if ($gallery_image->image && file_exists(public_path($gallery_image->image))) {
+                    unlink(public_path($gallery_image->image));
+                }
+                $imageName ='mainPhoto' . time() . '.' . $request->image->extension();
+                $request->image->move(public_path("images"), $imageName);
+                $gallery_image->image = 'images/' . $imageName;
+            }
+            $gallery_image->save();
+            return redirect('/photogallery')->with('success','Updated successfully');
+        }catch(\Exception $e){
+            dd($e->getMessage());
+            return response()->json(['error' => 'An error occurred while updating the image.'], 500);
+        }
     }
 
     /**
@@ -109,6 +135,13 @@ class PhotogalleryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        PhotoGallery::destroy($id);
+        return redirect('/photogallery')->with('success','Deleted successfully');
+    }
+
+    public function destroySubPhoto(string $id)
+    {
+        SubPhotoGallery::destroy($id);
+        return redirect('/photogallery')->with('success','Deleted successfully');
     }
 }

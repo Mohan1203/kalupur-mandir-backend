@@ -2,9 +2,9 @@
 
 @section('content')
 <div>
-    <div class="container-fluid page-body-wrapper ">
+    <div class="container-fluid  ">
         <div class="d-flex flex-column">
-        <div class="main-panel">
+        <div class="">
             <form action="{{ route('handle.saveAcharya') }}" method="POST" enctype="multipart/form-data">
                  @csrf
                     <div class="row">

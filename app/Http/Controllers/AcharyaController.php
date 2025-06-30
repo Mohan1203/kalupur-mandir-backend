@@ -111,8 +111,8 @@ class AcharyaController extends Controller
             $request->image->move(public_path("images"), $imageName);
             $acharya->image = 'images/' . $imageName;
         }
-        $acharya->save();
-        return redirect('/acharya');
+        $imageName->save();
+        return redirect('/acharya')->with('success','Updated successfully');
     }
 
     /**

@@ -2,8 +2,8 @@
 
 @section('content')
 <div>
-    <div class="container-fluid page-body-wrapper">
-          <div class="main-panel">
+    <div class="container-fluid ">
+          <div class="">
               <form action="{{ route('handle.updateAcharya',$acharya->id) }}" method="POST" enctype="multipart/form-data">
                 @method("put")
                  @csrf

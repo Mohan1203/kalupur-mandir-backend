@@ -2,8 +2,8 @@
 
 @section('content')
 <div>
-    <div class="container-fluid page-body-wrapper ">
-        <div class="main-panel">
+    <div class="container-fluid  ">
+        <div class="">
             <form enctype="multipart/form-data" method="POST" action={{ route('handle.savephotos') }}>
                 @csrf
                 <div class="row">
@@ -66,44 +66,80 @@
             </form>
         </div>
     </div>
-      <div>
-                    <table id="product-table" class="table table-bordered mt-4">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Acharya Name</th>
-                                <th>Image</th>
-                                {{-- <th>Description</th> --}}
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="product-list">
-
-                            @foreach ($images as $key => $image)
-                                <tr data-id="{{ $image['id'] }}">
-                                    <td>{{ $key + 1 }}</td>
-                                    <td>{{ $image['title'] }}</td>
-                                    <td>
-                                        <img src="{{ asset(env('APP_URL').  '/' . $image['image']) }}" width="50"
+    <div>
+        <div class="mt-3">
+        <h2>Gallery Main Photos</h2>
+        <table id="product-table" class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Image Title</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+                <tbody id="product-list">
+                    @foreach ($images as $key => $image)
+                        <tr data-id="{{ $image['id'] }}">
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $image['title'] }}</td>
+                            <td>
+                            <img src="{{ asset(env('APP_URL').  '/' . $image['image']) }}" width="50"
                                             height="50" alt="Image">
-                                    </td>
-                                    {{-- <td>{{ $acharya['description'] }}</td> --}}
-                                    <td>
-                                        <a href="/editacharya/{{ $acharya['id'] }}" class="btn btn-warning btn-sm">Edit</a>
-                                        {{-- <form action="{{ route('hamdle.deleteAcharya', $acharya['id']) }}" method="post"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
-                                        </form> --}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-
-                    </table>
-            </div>
+                            </td>
+                            <td>
+                                <a href="/editphotogallery/{{ $image['id'] }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('handle.deletephotogallery', $image['id']) }}" method="post"
+                                        style="display: inline;">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
+                                    </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+        </table>
         </div>
+        <div class="mt-3">
+        <h2>Gallery Child Photos</h2>
+        <table id="product-table" class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Parent Image ID</th>
+                    <th>Image Title</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+                <tbody id="product-list">
+                    @foreach ($subImages as $key => $subimage)
+                        <tr data-id="{{ $subimage['id'] }}">
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{$subimage['photo_id']}}</td>
+                            <td>{{ $subimage['title'] }}</td>
+                            <td>
+                            <img src="{{ asset(env('APP_URL').  '/' . $subimage['image']) }}" width="50"
+                                            height="50" alt="Image">
+                            </td>
+                            <td>
+                                <a href="/editsubphotogallery/{{ $subimage['id'] }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('handle.deletesubphotogallery', $subimage['id']) }}" method="post"
+                                        style="display: inline;">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
+                                    </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+        </table>
+        </div>
+
+    </div>
 </div>
 @endsection

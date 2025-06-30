@@ -2,8 +2,8 @@
 
 @section('content')
 <div>
-    <div class="container-fluid page-body-wrapper">
-        <div class="main-panel">
+    <div class="container-fluid ">
+        <div class="">
             <form action="{{ route('handle.saveBookingdetail') }}" method="POST">
                  @csrf
                   <div class="row">

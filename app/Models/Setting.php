@@ -11,7 +11,12 @@ class Setting extends Model
     protected $fillable = [
         'home_video_link',
         'mahapuja_image',
-        'yagna_image'
+        'yagna_image',
+        'address',
+        'contact_number',
+        'email',
+        'logo',
+        'description',
     ];
     protected $hidden = [
         'created_at',

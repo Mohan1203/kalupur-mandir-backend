@@ -2,8 +2,8 @@
 
 @section('content')
 <div>
-    <div class="container-fluid page-body-wrapper">
-        <div class="main-panel">
+    <div class="container-fluid ">
+        <div class="">
             <div>
                 <form method="POST" action="{{ route('handle.addhomepagedata') }}" enctype="multipart/form-data">
                 @csrf
