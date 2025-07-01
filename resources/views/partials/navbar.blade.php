@@ -25,13 +25,13 @@
                         <strong>Administrator</strong>
                     </div>
                     <div class="dropdown-divider"></div>
-                    {{-- <a class="dropdown-item" href="{{ route('handle.logout') }}"
+                    <a class="dropdown-item" href="{{ route('handle.logout') }}"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fa fa-sign-out me-2 text-danger"></i> Logout
-                    </a> --}}
-                    {{-- <form id="logout-form" action="{{ route('handle.logout') }}" method="POST" class="d-none">
+                    </a>
+                    <form id="logout-form" action="{{ route('handle.logout') }}" method="POST" class="d-none">
                         @csrf
-                    </form> --}}
+                    </form>
                 </div>
             </li>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"

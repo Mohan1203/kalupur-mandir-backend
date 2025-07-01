@@ -1,11 +1,29 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
+
         <li class="nav-item">
             <a class="nav-link" href="/">
                <i class="bi bi-house-door fs-4"></i>
                 <span class="menu-title">Home</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/parsadidarshan">
+               <i class="bi bi-pen fs-4"></i>
+                <span class="menu-title">Prasadi Darshan</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/testimonials">
+                <i class="bi bi-person fs-4"></i>
+                <span class="menu-title">Testimonials</span>
+            </a>
+        </li>
+
+
+
         <li class="nav-item">
             <a class="nav-link" href="/bookings">
                <i class="bi bi-card-list fs-4"></i>
@@ -22,6 +40,12 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="/eventgallery">
+                <i class="bi bi-columns-gap fs-5"></i>
+                <span class="menu-title">Event Gallery</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="/photogallery">
                 <i class="bi bi-columns-gap fs-5"></i>

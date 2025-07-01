@@ -50,7 +50,7 @@
                 </form>
                 </div>
                  <div class="mt-3">
-                     <h2 class="card-title">Gallery Main Photos</h2>
+                     <h2 class="card-title">Time Range</h2>
 
                 <table id="product-table" class="table table-bordered ">
                     <thead>

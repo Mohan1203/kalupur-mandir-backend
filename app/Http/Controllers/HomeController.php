@@ -19,6 +19,12 @@ class HomeController
         return view('admin.home.home',compact('setting'));
     }
 
+    public function getPrasadiDarshan()
+    {
+        $prasadiDarshans = ParsadiDarshan::all();
+        return view('admin.home.prasadidarshan', compact('prasadiDarshans'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -55,38 +61,54 @@ public function store(Request $request)
     $setting->home_video_link = $request->video_link;
     $setting->save();
 
-    // Save Prasadi Darshan entries
-
-    if (!empty($request->heading) && count(array_filter($request->heading)) > 0) {
-        foreach ($request->heading as $index => $heading) {
-            $prasadi = new ParsadiDarshan();
-            $prasadi->title = $heading;
-            $prasadi->description = $request->description[$index] ?? '';
-
-            // Handle file upload
-            if ($request->hasFile("prasadi_image.$index")) {
-                $file = $request->file("prasadi_image")[$index];
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('prasadi_images', $filename, 'public');
-                $prasadi->prasadi_image = $path;
-            }
-            $prasadi->save();
-        }
-    }
-
-    if(!empty($request->heading) && count(array_filter($request->heading)) > 0){
-        foreach($request->testimonail_name as $index => $testimonail_name){
-            $testimonials = new Testimonials();
-            $testimonials->name = $testimonail_name;
-            $testimonials->country = $request->testimonail_country[$index] ?? "";
-            $testimonials->description = $request->testimonail_description[$index] ?? "";
-            $testimonials->save();
-        }
-    }
+    
 
     return redirect()->back()->with('success', 'Saved successfully!');
 }
 
+public function storePrasadiDarshan(Request $request){
+    $prasadi = new ParsadiDarshan();
+    $prasadi->title = $request->heading;
+    $prasadi->description = $request->description ?? '';
+
+    if ($request->hasFile("prasadi_image")) {
+            $imageName ='prasadi_image' . time() . '.' . $request->prasadi_image->extension();
+            $request->prasadi_image->move(public_path("images"), $imageName);
+            $prasadi->prasadi_image = 'images/' . $imageName;
+    }
+    $prasadi->save();
+    return redirect()->back()->with('success', 'Saved successfully!');
+}
+
+    public function editPrasadiDarshan(string $id)
+    {
+        $prasadiDarshan = ParsadiDarshan::where('id',$id)->first();
+        return view('admin.home.editprasadidarshan', compact('prasadiDarshan'));
+    }
+
+    public function updatePrasadiDarshan(Request $request, string $id)
+    {
+        $prasadiDarshan = ParsadiDarshan::where('id',$id)->first();
+        $prasadiDarshan->title = $request->heading;
+        $prasadiDarshan->description = $request->description ?? '';
+
+        if ($request->hasFile("prasadi_image")) {
+            if ($prasadiDarshan->prasadi_image && file_exists(public_path($prasadiDarshan->prasadi_image))) {
+                unlink(public_path($prasadiDarshan->prasadi_image));
+            }
+            $imageName ='prasadi_image' . time() . '.' . $request->prasadi_image->extension();
+            $request->prasadi_image->move(public_path("images"), $imageName);
+            $prasadiDarshan->prasadi_image = 'images/' . $imageName;
+        }
+        $prasadiDarshan->save();
+        return redirect('/parsadidarshan')->with('success', 'Updated successfully!');
+    }
+
+
+    public function destroyPrasadiDarshan(string $id){
+        ParsadiDarshan::destroy($id);
+        return redirect()->back()->with('success', 'Deleted successfully!');
+    }
 
     /**
      * Display the specified resource.
