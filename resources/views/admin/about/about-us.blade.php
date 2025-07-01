@@ -8,7 +8,7 @@
                 <form enctype="multipart/form-data" method="POST" action={{ route('handle.saveAboutus') }}>
                     @csrf
                     <div class="col-12 my-2 p-0">
-                        <h5 class="card-title">Opening Hours</h5>
+                        <h2 class="card-title">Opening Hours</h2>
                         <div class="card">
                             <div class="card-body">
                                 {{-- Day Range --}}
@@ -42,17 +42,15 @@
                                         <input type="time" class="form-control" id="end_time" name="end_time">
                                     </div>
                                 </div>
-
                                 {{-- Submit --}}
                                 <button type="submit" class="btn btn-primary">Submit</button>
-
                             </div>
                         </div>
                     </div>
                 </form>
                 </div>
                  <div class="mt-3">
-                     <h2>Gallery Main Photos</h2>
+                     <h2 class="card-title">Gallery Main Photos</h2>
 
                 <table id="product-table" class="table table-bordered ">
                     <thead>
@@ -89,19 +87,33 @@
         </div>
 
             <div class="mt-4">
-                <h2>Address</h2>
+                <h2 class="card-title">Address</h2>
                    <div class="card">
-                            <div class="card-body">
-                <form method="POST" action="{{ route('handle.saveAddress') }}">
-                    @csrf
-                    <div class="mb-3">
-                        <textarea id="address" name="address" class="form-control" placeholder="Address">{{ $setting->address ?? '' }}</textarea>
-                    </div>
+                     <div class="card-body">
+                        <form method="POST" action="{{ route('handle.saveAddress') }}">
+                            @csrf
+                                <div >
+                                     <div class="my-3 row">
+                                        <div class="col-md-6 ">
+                                        <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" value="{{ $setting->email ?? '' }}" placeholder="Email">
+                                        </div>
+                                        <div class="col-md-6">
+                                        <label for="phone_number" class="form-label">Phone Number</label>
+                                            <input type="number" class="form-control" id="phone_number" name="phone_number" value="{{ $setting->contact_number ?? '' }}" placeholder="Phone Number">
+                                        </div>
+                                    </div>
+                                    <div class=" col-12  p-0 mb-3">
+                                        <label for="address" class="form-label">Address</label>
+                                        <textarea id="address" name="address" class="form-control" placeholder="Address">{{ $setting->address ?? '' }}</textarea>
+                                    </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
+
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
     </div>
 

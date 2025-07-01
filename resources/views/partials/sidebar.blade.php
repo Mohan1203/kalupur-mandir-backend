@@ -13,14 +13,7 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="/products">
-                <i class="bi bi-clock-history fs-4" ></i>
-                <div>
-                    <span class="menu-title">History</span>
-                </div>
-            </a>
-        </li>
+
 
         <li class="nav-item">
             <a class="nav-link" href="/acharya">
@@ -46,6 +39,12 @@
             <a class="nav-link" href="/aboutus">
                 <i class="bi bi-people fs-4"></i>
                 <span class="menu-title">About Us</span>
+            </a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link" href="/pages">
+                <i class="bi bi-file-earmark fs-4"></i>
+                <span class="menu-title">Pages</span>
             </a>
         </li>
          <li class="nav-item">

@@ -7,6 +7,8 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AcharyaController;
 use App\Http\Controllers\PhotogalleryController;
 use App\Http\Controllers\AboutuseController;
+use App\Http\Controllers\PagesController;
+use App\Http\Controllers\SettingController;
 
 Route::get('/login', [LoginController::class,'index'])->name('login');
 Route::post('/login', [LoginController::class,'authenticate'])->name('handle.authenticate');
@@ -48,6 +50,17 @@ Route::group(['middleware'=>['auth']],function(){
     Route::delete("/timerange/{id}",[AboutuseController::class,'destroyTimerange'])->name("handle.deleteTimerange");
 
     Route::post('/address',[AboutuseController::class,'storeAddress'])->name('handle.saveAddress');
+
+    // Pages Routes
+    Route::get("/pages",[PagesController::class,'index'])->name('pages.index');
+    Route::post("/pages",[PagesController::class,'store'])->name('handle.savePages');
+
+    // Settings Routes
+    Route::get("/settings",[SettingController::class,'index'])->name('settings.index');
+    Route::post("/settings",[SettingController::class,'store'])->name('handle.saveSettings');
+
+
+
 });
 
 
