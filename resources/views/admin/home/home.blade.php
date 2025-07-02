@@ -15,7 +15,7 @@
                                 <div class="mb-3">
                                         <label for="video_link" class="form-label">Video Link</label>
                                         <input type="text" class="form-control" id="video_link" name="video_link"
-                                            placeholder="Enter Video Link" value="{{ $setting->home_video_link}}">
+                                            placeholder="Enter Video Link" value="{{ $setting->home_video_link ?? '' }}">
                                 </div>
                             </div>
                         </div>

@@ -12,3 +12,7 @@ Route::get('/testimonials', [ApiController::class, 'getTestimonials']);
 Route::get('/get_event_gallery',[ApiController::class, 'getEventGallery']);
 Route::get('/photo_gallery', [ApiController::class, 'getPhotoGallery']);
 Route::get('photo_gallery/{id}', [ApiController::class, 'getSubPhotoGallery']);
+
+
+Route::post('/contact_us', [ApiController::class, 'contactUs']);
+Route::post('/donation', [ApiController::class, 'donation']);

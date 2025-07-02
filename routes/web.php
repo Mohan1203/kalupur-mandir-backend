@@ -13,6 +13,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\YajmanController;
+use App\Http\Controllers\DonationController;
 
 Route::get('/login', [LoginController::class,'index'])->name('login');
 Route::post('/login', [LoginController::class,'authenticate'])->name('handle.authenticate');
@@ -96,6 +97,9 @@ Route::group(['middleware'=>['auth']],function(){
     Route::post("/settings",[SettingController::class,'store'])->name('handle.saveSettings');
 
     Route::post("/logout",[LoginController::class,'logout'])->name('handle.logout');
+
+    // Donation Routes
+    Route::get("/donation",[DonationController::class,'index'])->name('donation.index');
 });
 
 
