@@ -12,6 +12,7 @@ use App\Http\Controllers\AboutuseController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\YajmanController;
 
 Route::get('/login', [LoginController::class,'index'])->name('login');
 Route::post('/login', [LoginController::class,'authenticate'])->name('handle.authenticate');
@@ -48,6 +49,12 @@ Route::group(['middleware'=>['auth']],function(){
     Route::put("/editacharya/{id}",[AcharyaController::class,'update'])->name('handle.updateAcharya');
     Route::delete("/acharya/{id}",[AcharyaController::class,'destroy'])->name("handle.deleteAcharya");
 
+    // Yajman Routes
+    Route::get("/yajman",[YajmanController::class,'index']);
+    Route::post("/yajman",[YajmanController::class,'store'])->name('handle.saveYajman');
+    Route::get("/edityajman/{id}",[YajmanController::class,'edit'])->name('handle.editYajman');
+    Route::put("/updateyajman/{id}",[YajmanController::class,'update'])->name('handle.updateYajman');
+    Route::delete("/yajman/{id}",[YajmanController::class,'destroy'])->name('handle.deleteYajman');
 
     // Event Gallery Routes
     Route::get("/eventgallery",[EventGalleryController::class,'index']);
@@ -56,6 +63,8 @@ Route::group(['middleware'=>['auth']],function(){
     Route::put('/updateeventgallery/{id}',[EventGalleryController::class,'update'])->name('handle.updateEventGallery');
     Route::delete('/eventgallery/{id}',[EventGalleryController::class,'destroy'])->name('handle.deleteEventGallery');
     Route::post('/savesubphotos',[EventGalleryController::class,'storeSubEventPhotos'])->name('handle.saveEventSubPhotos');
+    Route::get('/editsubeventgallery/{id}',[EventGalleryController::class,'editSubPhoto'])->name('handle.editEventSubPhoto');
+    Route::put('/updatesubeventgallery/{id}',[EventGalleryController::class,'updateSubEventPhotos'])->name('handle.updateEventSubPhoto');
 
     // Photo Gallery Routes
     Route::get("/photogallery",[PhotogalleryController::class,'index']);

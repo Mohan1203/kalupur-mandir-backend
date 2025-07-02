@@ -89,6 +89,12 @@ class EventGalleryController extends Controller
         return view('admin.eventgallery.editeventgallery', compact('eventImage'));
     }
 
+    public function editSubPhoto(string $id)
+    {
+        $subEventImage = EventSubGallery::findOrFail($id);
+        return view('admin.eventgallery.editsubeventgallery', compact('subEventImage'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -106,6 +112,22 @@ class EventGalleryController extends Controller
         }
         $eventGallery->save();
         return redirect('/eventgallery')->with('success', 'Event Gallery updated successfully.');
+    }
+
+    public function updateSubEventPhotos(Request $request, string $id)
+    {
+        $subEventGallery = EventSubGallery::where('id', $id)->first();
+        $subEventGallery->description = $request->title;
+        if($request->hasFile('image')) {
+            if ($subEventGallery->image_path && file_exists(public_path($subEventGallery->image_path))) {
+                unlink(public_path($subEventGallery->image_path));
+            }
+            $imageName ='subPhoto' . time() . '.' . $request->image->extension();
+            $request->image->move(public_path("images"), $imageName);
+            $subEventGallery->image_path = 'images/' . $imageName;
+        }
+        $subEventGallery->save();
+        return redirect('/eventgallery')->with('success', 'Sub Event Gallery updated successfully.');
     }
 
     /**

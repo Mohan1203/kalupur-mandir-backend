@@ -34,6 +34,13 @@
 
 
         <li class="nav-item">
+            <a class="nav-link" href="/yajman">
+                <i class="bi bi-person fs-4"></i>
+                <span class="menu-title">Yajman</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link" href="/acharya">
                 <i class="bi bi-person fs-4"></i>
                 <span class="menu-title">Acharyas</span>

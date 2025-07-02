@@ -123,7 +123,7 @@
                                             height="50" alt="Image">
                             </td>
                             <td>
-                                <a href="/editsubphotogallery/{{ $subimage['id'] }}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="/editsubeventgallery/{{ $subimage['id'] }}" class="btn btn-warning btn-sm">Edit</a>
                                     <form action="{{ route('handle.deletesubphotogallery', $subimage['id']) }}" method="post"
                                         style="display: inline;">
                                         @csrf

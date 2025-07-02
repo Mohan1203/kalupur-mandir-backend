@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Yajman;
 
 class YajmanController extends Controller
 {
@@ -11,7 +12,8 @@ class YajmanController extends Controller
      */
     public function index()
     {
-        //
+        $yajmans = Yajman::all();
+        return view('admin.yajman.yajman',compact('yajmans'));
     }
 
     /**
@@ -27,7 +29,23 @@ class YajmanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validate = $request->validate([
+            'title'=> 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp',
+            'date' => 'required'
+        ]);
+        $yajman = new Yajman();
+        $yajman->name = $request->title;
+        $yajman->event_date = $request->date;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = 'yajman'. time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/images'), $imageName);
+            $yajman->image_path = 'images/' .$imageName;
+        }
+        $yajman->save();
+        return redirect()->back()->with('success', 'Yajman added successfully');
     }
 
     /**
@@ -43,7 +61,8 @@ class YajmanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $yajman = Yajman::where('id', $id)->first();
+        return view('admin.yajman.edityajman', compact('yajman'));
     }
 
     /**
@@ -51,7 +70,19 @@ class YajmanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $yajman = Yajman::where('id', $id)->first();
+        $yajman->name = $request->title;
+        $yajman->event_date = $request->date;
+        if($request->hasFile('image')){
+            if ($yajman->image && file_exists(public_path($yajman->image))) {
+                unlink(public_path($yajman->image));
+            }
+            $imageName ='yajman' . time() . '.' . $request->image->extension();
+            $request->image->move(public_path("images"), $imageName);
+            $yajman->image_path = 'images/' . $imageName;
+        }
+        $yajman->save();
+        return redirect('/yajman')->with('success', 'Yajman updated successfully');
     }
 
     /**
@@ -59,6 +90,7 @@ class YajmanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Yajman::destroy($id);
+        return redirect('/yajman');
     }
 }
