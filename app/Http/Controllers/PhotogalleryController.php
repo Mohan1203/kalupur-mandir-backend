@@ -31,13 +31,14 @@ class PhotogalleryController extends Controller
      */
     public function store(Request $request)
     {
-        try{
         $validate = $request->validate([
             'title'=>'required',
-            'image'=>'required|image|mimes:jpg,png,jpeg,webp,svg'
+            'slug'=>'required|unique:photo_galleries,slug',
+            'image'=>'required|image|mimes:jpg,png,jpeg,webp'
         ]);
         $galleryImage = new PhotoGallery();
         $galleryImage->title = $request->title;
+        $galleryImage->slug = $request->slug;
         if($request->hasFile('image')){
             $imageName = 'mainPhoto'. time() . '.' .$request->image->extension();
             $request->image->move(public_path("images"), $imageName);
@@ -45,10 +46,7 @@ class PhotogalleryController extends Controller
         }
         $galleryImage->save();
         return redirect()->back()->with('success','saved successfully');
-        }catch(\Exception $e){
-            dd($e->getMessage());
-            return response()->json(['error' => 'An error occurred while store the image.'], 500);
-        }
+
 
     }
 
@@ -57,7 +55,7 @@ class PhotogalleryController extends Controller
         try{
              $validate = $request->validate([
             'title'=>'required',
-            'image'=>'required|image|mimes:jpg,png,jpeg,webp,svg',
+            'image'=>'required|image|mimes:jpg,png,jpeg,webp',
             'image_id' => 'required'
         ]);
 

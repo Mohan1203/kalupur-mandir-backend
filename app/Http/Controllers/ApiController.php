@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\EventGallery;
+use App\Models\EventSubGallery;
 use App\Models\ParsadiDarshan;
 use App\Models\PhotoGallery;
 use App\Models\Setting;
@@ -123,6 +124,39 @@ class ApiController extends Controller
         }
     }
 
+    public function getSubEventGallery(string $slug)
+    {
+        try {
+            $limit = $request->limit ?? 6;
+            $offset = $request->offset ?? 0;
+            $eventGallery = EventGallery::where('slug', $slug)->first();
+            if (!$eventGallery) {
+                return response()->json(['success' => false, 'error' => 'Event gallery not found.'], 404);
+            }
+            $subEventGallery = EventSubGallery::where('photo_id', $eventGallery->id)
+                ->orderBy('created_at', 'desc')
+                ->skip($offset)
+                ->take($limit)
+                ->get();
+            $subEventGallery->map(function ($item) {
+                $item->image = asset(env('APP_URL') . '/' . $item->image);
+                return $item;
+            });
+            $data = [
+                'success' => true,
+                'data' => $subEventGallery
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            $data = [
+                'success' => false,
+                'error' => 'An error occurred while fetching data.',
+                'message' => $e->getMessage()
+            ];
+            return response()->json($data);
+        }
+    }
+
     public function getPhotoGallery()
     {
         try {
@@ -151,12 +185,13 @@ class ApiController extends Controller
         }
     }
 
-    public function getSubPhotoGallery(string $id)
+    public function getSubPhotoGallery(string $slug)
     {
         try {
             $limit = $request->limit ?? 6;
             $offset = $request->offset ?? 0;
-            $subPhotoGallery = SubPhotoGallery::where('photo_id', $id)
+            $photoGallery = PhotoGallery::where('slug', $slug)->first();
+            $subPhotoGallery = SubPhotoGallery::where('photo_id', $photoGallery->id)
                 ->orderBy('created_at', 'desc')
                 ->skip($offset)
                 ->take($limit)
@@ -237,4 +272,6 @@ class ApiController extends Controller
             return response()->json(['error' => true, 'message' => $e->getMessage()]);
         }
     }
+
+
 }

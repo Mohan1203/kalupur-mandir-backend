@@ -10,16 +10,30 @@
                      <h5 class="card-title">Event Gallery Images</h5>
                             <div class="card">
                                 <div class="card-body">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul class="mb-0">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     <div class="row ">
                                         <div class="mb-3 col-md-6">
                                             <label for="title" class="form-label">Image Title<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="title" name="title"
-                                            placeholder="Enter Image Title">
+                                            placeholder="Enter Image Title" required>
                                         </div>
+
+                                       <div class="mb-3 col-md-6">
+                                        <label for="slug" class="form-label">Image Slug<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="slug" name="slug" placeholder="Enter Image slug" required>
+                                        </div>
+
                                         <div class="mb-3 col-md-6">
                                             <label for="image" class="form-label">Image<span class="text-danger">*</span></label>
-                                            <input type="file" class="form-control" id="image" name="image"
-                                            >
+                                            <input type="file" class="form-control" id="image" name="image" required>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -35,7 +49,7 @@
                                     <div class="card-body">
                                         <div class="row ">
                                             <div class="mb-3 col-md-6">
-                                                <label for="title" class="form-label">Select Parent Image</label>
+                                                <label for="sub_title" class="form-label">Select Parent Image</label>
                                                 <select class="form-select" id="category" name="image_id" required>
                                                     <option value="">Select Parent Title</option>
                                                     @foreach ($eventImages as $image)
@@ -45,15 +59,15 @@
                                             </div>
 
                                             <div class="mb-3 col-md-6">
-                                                <label for="title" class="form-label">Image Title<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="title" name="title"
-                                                placeholder="Enter Image Title">
+                                                <label for="sub_title" class="form-label" >Image Title<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="sub_title" name="title"
+                                                placeholder="Enter Image Title" required>
                                             </div>
 
                                             <div class="mb-3 col-md-6">
                                                 <label for="image" class="form-label">Image<span class="text-danger">*</span></label>
                                                 <input type="file" class="form-control" id="image" name="image"
-                                                >
+                                                required>
                                             </div>
                                         </div>
 
@@ -124,7 +138,7 @@
                             </td>
                             <td>
                                 <a href="/editsubeventgallery/{{ $subimage['id'] }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('handle.deletesubphotogallery', $subimage['id']) }}" method="post"
+                                    <form action="{{ route('handle.deleteSubEventGallery', $subimage['id']) }}" method="post"
                                         style="display: inline;">
                                         @csrf
                                         @method('delete')
@@ -140,4 +154,27 @@
 
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const titleInput = document.getElementById("title");
+        const slugInput = document.getElementById("slug");
+
+        // If there are multiple title inputs (for parent and child form), handle only the first
+        if (titleInput && slugInput) {
+            titleInput.addEventListener("input", function () {
+                let slug = titleInput.value
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^a-zA-Z0-9\s-]/g, '')  // remove special chars
+                    .replace(/\s+/g, '-')             // replace spaces with hyphens
+                    .replace(/-+/g, '-');             // remove multiple hyphens
+
+                slugInput.value = slug;
+            });
+        }
+    });
+</script>
+
+
 @endsection

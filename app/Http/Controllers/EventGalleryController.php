@@ -33,12 +33,13 @@ class EventGalleryController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svgs',
+            'slug' => 'required|unique:event_gallery,slug',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp',
         ]);
 
         $eventGallery = new EventGallery();
         $eventGallery->description = $request->title;
-
+        $eventGallery->slug = $request->slug;
         if ($request->hasFile('image')) {
             $imageName = 'event'. time() . '.' .$request->image->extension();
             $request->image->move(public_path("images"), $imageName);
@@ -137,5 +138,11 @@ class EventGalleryController extends Controller
     {
         EventGallery::destroy($id);
         return redirect('/eventgallery')->with('success', 'Event Gallery deleted successfully.');
+    }
+
+    public function destroySubEventPhotos(string $id)
+    {
+        EventSubGallery::destroy($id);
+        return redirect('/eventgallery')->with('success', 'Sub Event Gallery deleted successfully.');
     }
 }

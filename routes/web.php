@@ -63,6 +63,7 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('/editeventgallery/{id}',[EventGalleryController::class,'edit'])->name('handle.editEventGallery');
     Route::put('/updateeventgallery/{id}',[EventGalleryController::class,'update'])->name('handle.updateEventGallery');
     Route::delete('/eventgallery/{id}',[EventGalleryController::class,'destroy'])->name('handle.deleteEventGallery');
+    Route::delete('/subeventgallery/{id}',[EventGalleryController::class,'destroySubEventPhotos'])->name('handle.deleteSubEventGallery');
     Route::post('/savesubphotos',[EventGalleryController::class,'storeSubEventPhotos'])->name('handle.saveEventSubPhotos');
     Route::get('/editsubeventgallery/{id}',[EventGalleryController::class,'editSubPhoto'])->name('handle.editEventSubPhoto');
     Route::put('/updatesubeventgallery/{id}',[EventGalleryController::class,'updateSubEventPhotos'])->name('handle.updateEventSubPhoto');
