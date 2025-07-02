@@ -13,7 +13,7 @@ class AcharyaController extends Controller
      */
     public function index()
     {
-         $acharyas = Acharya::all();
+         $acharyas = Acharya::orderBy('created_at', 'desc')->get();
         return view('admin.acharya.acharya',compact('acharyas'));
     }
 
@@ -122,5 +122,32 @@ class AcharyaController extends Controller
     {
         Acharya::destroy($id);
         return redirect('/acharya');
+    }
+
+    /**
+     * Update the current acharya status - only one can be current at a time.
+     */
+    public function updateCurrentAcharya(Request $request)
+    {
+        try {
+            $acharyaId = $request->input('acharya_id');
+            
+            // Set all acharyas to not current
+            Acharya::query()->update(['is_current_acharya' => false]);
+            
+            // Set the selected acharya as current
+            Acharya::where('id', $acharyaId)->update(['is_current_acharya' => true]);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Current acharya updated successfully'
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error updating current acharya: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

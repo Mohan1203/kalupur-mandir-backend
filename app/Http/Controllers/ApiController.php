@@ -11,6 +11,7 @@ use App\Models\SubPhotoGallery;
 use App\Models\Testimonials;
 use App\Models\Yajman;
 use App\Models\Donations;
+use App\Models\Acharya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -274,4 +275,28 @@ class ApiController extends Controller
     }
 
 
+
+
+    public function getAcharyas(Request $request){
+        $limit = $request->limit ?? 10;
+        $offset = $request->offset ?? 0;
+        try{
+            $acharyas = Acharya::orderBy('created_at', 'desc')
+                ->skip($offset)
+                ->take($limit)
+                ->get();
+            $acharyas->map(function ($item) {
+                $item->image = asset(env('APP_URL') . '/' . $item->image);
+                return $item;
+            });
+            $data = [
+                'error' => false,
+                'data' => $acharyas,
+                'total' => $acharyas->count()
+            ];
+            return response()->json($data);
+        }catch(\Exception $e){
+            return response()->json(['error' => true, 'message' => $e->getMessage()]);
+        }
+    }
 }

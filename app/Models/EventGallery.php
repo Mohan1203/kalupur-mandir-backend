@@ -14,6 +14,6 @@ class EventGallery extends Model
     ];
 
     public function subImages(){
-        return $this->hasMany(SubPhotoGallery::class,'image_id');
+    return $this->hasMany(SubPhotoGallery::class,'image_id');
     }
 }

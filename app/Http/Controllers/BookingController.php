@@ -33,12 +33,42 @@ class BookingController extends Controller
     {
         $booking = Booking::first() ?? new Booking();
 
-        $booking->pooja_description = $request->pooja_description;
-        $booking->yagna_description = $request->yagna_description;
+        // Handle individual tab saves based on type parameter
+        if ($request->has('type')) {
+            switch ($request->type) {
+                case 'pooja':
+                    $request->validate([
+                        'pooja_description' => 'required|string'
+                    ]);
+                    $booking->pooja_description = $request->pooja_description;
+                    $message = 'Pooja description saved successfully!';
+                    break;
+                    
+                case 'yagna':
+                    $request->validate([
+                        'yagna_description' => 'required|string'
+                    ]);
+                    $booking->yagna_description = $request->yagna_description;
+                    $message = 'Yagna description saved successfully!';
+                    break;
+                    
+                default:
+                    // If type is not recognized, save both (fallback)
+                    $booking->pooja_description = $request->pooja_description;
+                    $booking->yagna_description = $request->yagna_description;
+                    $message = 'Booking details saved successfully!';
+                    break;
+            }
+        } else {
+            // Legacy support - save both if no type specified
+            $booking->pooja_description = $request->pooja_description;
+            $booking->yagna_description = $request->yagna_description;
+            $message = 'Booking details saved successfully!';
+        }
 
         $booking->save();
 
-            return redirect()->back()->with('success', 'Saved successfully!');
+        return redirect()->back()->with('success', $message);
     }
 
     /**

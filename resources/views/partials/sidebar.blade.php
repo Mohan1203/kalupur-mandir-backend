@@ -100,12 +100,12 @@
     padding: 0px !important;
 }
 .sidebar .nav-link.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: linear-gradient(135deg, #5d1a1e 0%, #7d2428 100%) !important;
     color: #ffffff !important;
     border-radius: 0;
     
     /* margin: 0px 8px; */
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 12px rgba(93, 26, 30, 0.4);
     transform: translateX(2px);
     transition: all 0.3s ease;
 }
@@ -121,7 +121,7 @@
 
 /* Enhanced hover effects */
 .sidebar .nav-link:hover:not(.active) {
-    background: rgba(102, 126, 234, 0.1) !important;
+    background: rgba(93, 26, 30, 0.1) !important;
     /* border-radius: 8px; */
     /* margin: 2px 8px; */
     transform: translateX(1px);

@@ -12,6 +12,93 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+    
+    <!-- Custom Primary Color Theme -->
+    <style>
+        :root {
+            --primary-color: #5d1a1e;
+            --primary-hover: #7d2428;
+            --primary-light: rgba(93, 26, 30, 0.1);
+            --primary-shadow: rgba(93, 26, 30, 0.25);
+        }
+        
+        /* Primary Buttons */
+        .btn-primary, .btn-primary:focus {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%) !important;
+            border-color: var(--primary-color) !important;
+            color: white !important;
+            box-shadow: 0 2px 8px var(--primary-shadow);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-hover) 0%, #9d343a 100%) !important;
+            border-color: var(--primary-hover) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--primary-shadow);
+        }
+        
+        /* Outline Primary Buttons */
+        .btn-outline-primary {
+            border-color: var(--primary-color) !important;
+            color: var(--primary-color) !important;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+        
+        /* Form Controls */
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color) !important;
+            box-shadow: 0 0 0 0.25rem var(--primary-shadow) !important;
+        }
+        
+        /* Links */
+        a {
+            color: var(--primary-color);
+        }
+        
+        a:hover {
+            color: var(--primary-hover);
+        }
+        
+        /* Badges Primary */
+        .badge.bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+        
+        /* Text Primary */
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+        
+        /* Active States */
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color) !important;
+        }
+        
+        /* Pagination */
+        .page-link {
+            color: var(--primary-color);
+        }
+        
+        .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* Progress Bars */
+        .progress-bar {
+            background-color: var(--primary-color);
+        }
+        
+        /* Switch/Toggle */
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+    </style>
 
     <link rel="stylesheet" href="{{ asset('css/vendor.bundle.base.css') }}" async>
     {{-- <link rel="stylesheet" href="{{ asset('/assets/fonts/font-awesome.min.css') }}" async /> --}}

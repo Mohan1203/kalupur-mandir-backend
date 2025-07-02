@@ -10,6 +10,7 @@ class Setting extends Model
     protected $table = "setting";
     protected $fillable = [
         'home_video_link',
+        'history_video_link',
         'mahapuja_image',
         'yagna_image',
         'address',
@@ -17,6 +18,7 @@ class Setting extends Model
         'email',
         'logo',
         'description',
+        'iframe_key',
     ];
     protected $hidden = [
         'created_at',

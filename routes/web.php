@@ -49,6 +49,7 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get("/editacharya/{id}",[AcharyaController::class,'edit']);
     Route::put("/editacharya/{id}",[AcharyaController::class,'update'])->name('handle.updateAcharya');
     Route::delete("/acharya/{id}",[AcharyaController::class,'destroy'])->name("handle.deleteAcharya");
+    Route::post("/update-current-acharya",[AcharyaController::class,'updateCurrentAcharya'])->name('acharya.updateCurrent');
 
     // Yajman Routes
     Route::get("/yajman",[YajmanController::class,'index']);
@@ -92,6 +93,9 @@ Route::group(['middleware'=>['auth']],function(){
     // Pages Routes
     Route::get("/pages",[PagesController::class,'index'])->name('pages.index');
     Route::post("/pages",[PagesController::class,'store'])->name('handle.savePages');
+    Route::post("/pages/cookie-policy",[PagesController::class,'saveCookiePolicy'])->name('handle.saveCookiePolicy');
+    Route::post("/pages/privacy-policy",[PagesController::class,'savePrivacyPolicy'])->name('handle.savePrivacyPolicy');
+    Route::post("/pages/terms-conditions",[PagesController::class,'saveTermsConditions'])->name('handle.saveTermsConditions');
 
     // Settings Routes
     Route::get("/settings",[SettingController::class,'index'])->name('settings.index');

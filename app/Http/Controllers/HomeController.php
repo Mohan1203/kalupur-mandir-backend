@@ -59,6 +59,7 @@ public function store(Request $request)
             $setting->yagna_image = 'images/' . $imageName;
     }
     $setting->home_video_link = $request->video_link;
+    $setting->history_video_link = $request->history_video_link;
     $setting->save();
 
     

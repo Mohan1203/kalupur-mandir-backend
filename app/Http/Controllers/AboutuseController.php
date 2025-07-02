@@ -22,21 +22,6 @@ class AboutuseController extends Controller
      * Show the form for creating a new resource.
      */
 
-    public function storeAddress(Request $request){
-
-        $setting = Setting::first();
-        if(!$setting){
-            $setting = new Setting();
-        }
-        $setting->address = $request->address;
-        $setting->contact_number = $request->phone_number;
-        $setting->email = $request->email;
-        $setting->save();
-        return redirect()->back()->with('success', 'Address updated successfully.');
-
-
-    }
-
     /**
      * Store a newly created resource in storage.
      */

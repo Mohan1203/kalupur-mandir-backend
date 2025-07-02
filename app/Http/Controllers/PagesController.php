@@ -12,8 +12,8 @@ class PagesController extends Controller
      */
     public function index()
     {
-        $pages = Pages::first();
-        return view('admin.pages.pages',compact('pages'));
+        $pages = Pages::firstOrCreate([]);
+        return view('admin.pages.pages', compact('pages'));
     }
 
     /**
@@ -29,12 +29,60 @@ class PagesController extends Controller
      */
     public function store(Request $request)
     {
-        $pages = Pages::first();
+        $pages = Pages::firstOrCreate([]);
         $pages->cookie_policy = $request->cookie_policy;
         $pages->privacy_policy = $request->privacy_policy;
         $pages->terms_and_conditions = $request->terms_and_conditions;
         $pages->save();
         return redirect()->back()->with('success', 'Pages updated successfully!');
+    }
+
+    /**
+     * Save Cookie Policy
+     */
+    public function saveCookiePolicy(Request $request)
+    {
+        $request->validate([
+            'cookie_policy' => 'required|string'
+        ]);
+
+        $pages = Pages::firstOrCreate([]);
+        $pages->cookie_policy = $request->cookie_policy;
+        $pages->save();
+        
+        return redirect()->back()->with('success', 'Cookie Policy updated successfully!');
+    }
+
+    /**
+     * Save Privacy Policy
+     */
+    public function savePrivacyPolicy(Request $request)
+    {
+        $request->validate([
+            'privacy_policy' => 'required|string'
+        ]);
+
+        $pages = Pages::firstOrCreate([]);
+        $pages->privacy_policy = $request->privacy_policy;
+        $pages->save();
+        
+        return redirect()->back()->with('success', 'Privacy Policy updated successfully!');
+    }
+
+    /**
+     * Save Terms and Conditions
+     */
+    public function saveTermsConditions(Request $request)
+    {
+        $request->validate([
+            'terms_and_conditions' => 'required|string'
+        ]);
+
+        $pages = Pages::firstOrCreate([]);
+        $pages->terms_and_conditions = $request->terms_and_conditions;
+        $pages->save();
+        
+        return redirect()->back()->with('success', 'Terms & Conditions updated successfully!');
     }
 
     /**

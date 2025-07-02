@@ -29,10 +29,23 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'description' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'email' => 'nullable|email',
+            'phone_number' => 'nullable|string',
+            'address' => 'nullable|string',
+            'iframe_key' => 'nullable|string',
+        ]);
+
         $setting = Setting::first();
+        if (!$setting) {
+            $setting = new Setting();
+        }
 
         $setting->description = $request->description;
 
+        // Handle logo upload
         if($request->hasFile('logo')){
              if ($setting->logo && file_exists(public_path($setting->logo))) {
                 unlink(public_path($setting->logo));
@@ -42,8 +55,42 @@ class SettingController extends Controller
             $setting->logo = 'images/' . $imageName;
         }
 
+        // Handle contact information
+        if ($request->filled('email')) {
+            $setting->email = $request->email;
+        }
+        
+        if ($request->filled('phone_number')) {
+            $setting->contact_number = $request->phone_number;
+        }
+        
+        if ($request->filled('address')) {
+            $setting->address = $request->address;
+        }
+        
+        // Process iframe HTML to extract src URL
+        if ($request->filled('iframe_key')) {
+            $iframeSrc = $this->extractIframeSrc($request->iframe_key);
+            $setting->iframe_key = $iframeSrc;
+        }
+
         $setting->save();
         return redirect()->back()->with('success', 'Settings updated successfully');
+    }
+
+    /**
+     * Extract src attribute from iframe HTML
+     */
+    private function extractIframeSrc($iframeHtml)
+    {
+        // Remove any extra whitespace and newlines
+        $iframeHtml = trim($iframeHtml);
+        
+        // Use regex to extract src attribute from iframe
+        preg_match('/src=["\']([^"\']+)["\']/', $iframeHtml, $matches);
+        
+        // Return the src URL if found, otherwise return the original input
+        return isset($matches[1]) ? $matches[1] : $iframeHtml;
     }
 
     /**

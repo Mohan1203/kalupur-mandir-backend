@@ -12,11 +12,12 @@
                     <small class="text-muted">Total {{ count($donations) }} donation(s)</small>
                 </div>
                 <div class="d-flex gap-2">
-                    <div class="input-group" style="width: 280px;">
-                        <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Search donations..." />
-                        <span class="input-group-text bg-light">
-                            <i class="fas fa-search text-muted"></i>
-                        </span>
+                   
+                    <div class="input-group" style="width: 300px;">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search donations..." style="border-right: none; height: 38px;" />
+                        <button class="btn" type="button" style="background: linear-gradient(135deg, #5d1a1e 0%, #7d2428 100%); color: white; border: 1px solid #5d1a1e; border-left: none; height: 38px; padding: 0 15px;">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -60,7 +61,7 @@
                         @forelse ($donations as $key => $donation)
                             <tr class="border-bottom">
                                 <td class="px-3 py-3 text-center">
-                                    <span class="badge bg-light text-dark rounded-pill">{{ $key + 1 }}</span>
+                                    <span class="badge text-white rounded-pill" style="background-color: #5d1a1e;">{{ $key + 1 }}</span>
                                 </td>
                                 <td class="px-3 py-3">
                                     <div class="d-flex align-items-center">
@@ -92,18 +93,18 @@
                                     </div>
                                 </td>
                                 <td class="px-3 py-3">
-                                    @php
-                                        $typeColors = [
-                                            'donation-to-trust-fund' => 'primary',
-                                            'mahapuja' => 'success',
-                                            'mandir-nirman' => 'warning',
-                                            'yagna' => 'danger',
-                                            'dharmado' => 'info'
-                                        ];
-                                        $color = $typeColors[$donation->donation_type] ?? 'secondary';
-                                        $typeName = ucfirst(str_replace('-', ' ', $donation->donation_type));
-                                    @endphp
-                                    <span class="badge bg-{{ $color }} bg-gradient text-white">{{ $typeName }}</span>
+                                                                    @php
+                                    $typeColors = [
+                                        'donation-to-trust-fund' => ['bg' => '#5d1a1e', 'text' => 'white'],
+                                        'mahapuja' => ['bg' => '#7d2428', 'text' => 'white'],
+                                        'mandir-nirman' => ['bg' => '#9d343a', 'text' => 'white'],
+                                        'yagna' => ['bg' => '#bd444c', 'text' => 'white'],
+                                        'dharmado' => ['bg' => '#dd545e', 'text' => 'white']
+                                    ];
+                                    $colorScheme = $typeColors[$donation->donation_type] ?? ['bg' => '#6c757d', 'text' => 'white'];
+                                    $typeName = ucfirst(str_replace('-', ' ', $donation->donation_type));
+                                @endphp
+                                <span class="badge text-white" style="background-color: {{ $colorScheme['bg'] }}; color: {{ $colorScheme['text'] }};">{{ $typeName }}</span>
                                 </td>
                                 <td class="px-3 py-3">
                                     <span class="text-dark fw-semibold">{{ $donation->mandir }}</span>
@@ -182,7 +183,7 @@
 }
 
 .table tbody tr:hover {
-    background-color: rgba(13, 110, 253, 0.03);
+    background-color: rgba(93, 26, 30, 0.05);
 }
 
 .table tbody tr:last-child {
@@ -226,8 +227,8 @@
 }
 
 .form-control:focus {
-    border-color: #86b7fe;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #5d1a1e;
+    box-shadow: 0 0 0 0.25rem rgba(93, 26, 30, 0.25);
 }
 
 /* Responsive Design */
@@ -253,10 +254,16 @@
     .d-flex.gap-2 {
         flex-direction: column;
         width: 100%;
+        align-items: stretch;
     }
     
     .input-group {
         width: 100% !important;
+    }
+    
+    .d-flex.gap-2 .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
     }
 }
 
@@ -288,6 +295,47 @@
 
 .table-responsive::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
+}
+
+/* Search Input Group Styling */
+.input-group {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.input-group:hover {
+    box-shadow: 0 4px 12px rgba(93, 26, 30, 0.15);
+}
+
+.input-group .form-control {
+    border: 1px solid #dee2e6;
+    box-shadow: none;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.input-group .form-control:focus {
+    border-color: #5d1a1e;
+    box-shadow: none;
+    z-index: 3;
+}
+
+.input-group .form-control::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.input-group .btn {
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.input-group .btn:hover {
+    background: linear-gradient(135deg, #7d2428 0%, #9d343a 100%) !important;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(93, 26, 30, 0.3);
 }
 </style>
 
