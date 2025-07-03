@@ -64,12 +64,12 @@
             </a>
         </li>
         
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link {{ request()->is('video*') ? 'active' : '' }}" href="/settings">
                <i class="bi bi-play-circle fs-5"></i>
                 <span class="menu-title">Video Gallery</span>
             </a>
-        </li>
+        </li> -->
 
          <li class="nav-item">
             <a class="nav-link {{ request()->is('aboutus*') ? 'active' : '' }}" href="/aboutus">
