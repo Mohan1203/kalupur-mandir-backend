@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'youtube' => [
+        'api' => env('YOUTUBE_API_KEY'),
+        'channel_id' => env('YOUTUBE_CHANNEL_ID')
+    ]
+
 ];

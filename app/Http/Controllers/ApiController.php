@@ -10,10 +10,12 @@ use App\Models\Setting;
 use App\Models\SubPhotoGallery;
 use App\Models\Testimonials;
 use App\Models\Yajman;
+use App\Models\Booking;
 use App\Models\Donations;
 use App\Models\Acharya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Services\YoutubeService;
 
 class ApiController extends Controller
 {
@@ -134,13 +136,15 @@ class ApiController extends Controller
             if (!$eventGallery) {
                 return response()->json(['success' => false, 'error' => 'Event gallery not found.'], 404);
             }
-            $subEventGallery = EventSubGallery::where('photo_id', $eventGallery->id)
+            $subEventGallery = EventSubGallery::where('image_id', $eventGallery->id)
                 ->orderBy('created_at', 'desc')
                 ->skip($offset)
                 ->take($limit)
                 ->get();
             $subEventGallery->map(function ($item) {
-                $item->image = asset(env('APP_URL') . '/' . $item->image);
+                $item->image = asset(env('APP_URL') . '/' . $item->image_path);
+                unset($item->image_path);
+
                 return $item;
             });
             $data = [
@@ -271,6 +275,88 @@ class ApiController extends Controller
             return response()->json(['error' => false, 'message' => 'Donation submitted successfully']);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function getBooking(){
+        try{
+
+            $setting = Setting::first();
+            $booking = Booking::first();
+
+            $maha_pooja_image = $setting['mahapuja_image'] ? asset(env('APP_URL') . '/' . $setting['mahapuja_image']) : null;
+            $yagna_image = $setting['yagna_image'] ? asset(env('APP_URL') . '/' . $setting['yagna_image']) : null;
+
+            $pooja_description = $booking['pooja_description'] ?? '';
+            $yagna_description = $booking['yagna_description'] ?? '';
+
+            $maha_pooja = [
+                'image' => $maha_pooja_image,
+                'description' => $pooja_description
+            ];
+            $yagna = [
+                'image' => $yagna_image,
+                'description' => $yagna_description
+            ];
+
+            $data = [
+                'success' => true,
+                'data' => [
+                    'maha_pooja' => $maha_pooja,
+                    'yagna' => $yagna
+                ]
+            ];
+            return response()->json($data);
+
+        }catch(\Exception $e){
+            $data = [
+                'success' => false,
+                'error' => 'An error occurred while fetching booking data.',
+                'message' => $e->getMessage()
+            ];
+            return response()->json($data);
+        }
+    }
+
+    public function getVideos(Request $request){
+        try{
+            $offset = $request->offset ?? 0;
+            $limit = $request->limit ?? 10;
+            $youtubeService = new YoutubeService();
+            $videos = $youtubeService->getVideos($offset, $limit);
+            $data = [
+                'success' => true,
+                'data' => $videos
+            ];
+            return response()->json($data);
+        }catch(\Exception $e){
+             $data = [
+                'success' => false,
+                'error' => 'An error occurred while fetching Videos data.',
+                'message' => $e->getMessage()
+            ];
+            return response()->json($data);
+        }
+    }
+
+    public function getPlaylists(Request $request){
+        try{
+            $offset = $request->offset ?? 0;
+            $limit = $request->limit ?? 10;
+            $youtubeService = new YoutubeService();
+            $videos = $youtubeService->getPlayLists($offset, $limit);
+            $data = [
+                'success' => true,
+                'data' => $videos
+            ];
+            return response()->json($data);
+        }catch(\Exception){
+            $data = [
+                'success' => false,
+                'error' => 'An error occurred while fetching playlist data.',
+                'message' => $e->getMessage()
+            ];
+            return response()->json($data);
         }
     }
 

@@ -13,8 +13,10 @@ Route::get('/testimonials', [ApiController::class, 'getTestimonials']);
 Route::get('/get_event_gallery',[ApiController::class, 'getEventGallery']);
 Route::get('/get_event_gallery/{slug}', [ApiController::class, 'getSubEventGallery']);
 Route::get('/photo_gallery', [ApiController::class, 'getPhotoGallery']);
+Route::get('/videos',[ApiController::class,'getVideos']);
+Route::get('/playlists',[ApiController::class,'getPlaylists']);
 Route::get('photo_gallery/{slug}', [ApiController::class, 'getSubPhotoGallery']);
-
+Route::get('/get_booking_info', [ApiController::class, 'getBooking']);
 
 // get acharyas
 Route::get('/acharyas-list', [ApiController::class, 'getAcharyas']);
