@@ -13,6 +13,11 @@ class Aboutus extends Model
         'end_day',
         'start_time',
         'end_time',
+        'is_festival'
+    ];
+
+    protected $casts = [
+        'is_festival' => 'boolean'
     ];
 }
 

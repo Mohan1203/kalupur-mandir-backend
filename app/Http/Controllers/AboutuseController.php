@@ -28,10 +28,11 @@ class AboutuseController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'start_day' => 'required',
-            'end_day' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
+            'start_day' => 'required_without:is_festival',
+            'end_day' => 'required_without:is_festival',
+            'is_festival' => 'boolean'
         ]);
 
         Aboutus::create([
@@ -39,9 +40,10 @@ class AboutuseController extends Controller
             'end_day' => $request->end_day,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'is_festival' => $request->boolean('is_festival')
         ]);
 
-        return redirect()->back()->with('success', 'About Us details added successfully.');
+        return redirect()->back()->with('success', 'Opening hours added successfully.');
     }
 
     /**
@@ -74,14 +76,25 @@ class AboutuseController extends Controller
         //
     }
 
-    public function updateTimerange(Request $request, string $id){
+    public function updateTimerange(Request $request, string $id)
+    {
+        $validate = $request->validate([
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'start_day' => 'required_without:is_festival',
+            'end_day' => 'required_without:is_festival',
+            'is_festival' => 'boolean'
+        ]);
+
         $timerange = Aboutus::find($id);
         $timerange->start_day = $request->start_day;
         $timerange->end_day = $request->end_day;
         $timerange->start_time = $request->start_time;
         $timerange->end_time = $request->end_time;
+        $timerange->is_festival = $request->boolean('is_festival');
         $timerange->save();
-        return redirect('/aboutus')->with('success','updated  successfully');
+        
+        return redirect('/aboutus')->with('success','Opening hours updated successfully');
     }
 
     /**
@@ -92,8 +105,9 @@ class AboutuseController extends Controller
         //
     }
 
-    public function destroyTimerange(string $id){
+    public function destroyTimerange(string $id)
+    {
         Aboutus::destroy($id);
-        return redirect('/aboutus')->with('success','Timerange deleted successfully');
+        return redirect('/aboutus')->with('success','Opening hours deleted successfully');
     }
 }

@@ -4,11 +4,9 @@
 <div class="container-fluid px-4 py-3">
     <!-- Opening Hours Form -->
     <div class="card shadow-sm border-0 mb-4">
-        <div class="card-header bg-white py-3 border-bottom">
-            <h5 class="mb-0 fw-bold text-dark">
-                <i class="fas fa-clock text-primary me-2"></i>
-                Add Opening Hours
-            </h5>
+        <div class="card-header bg-white py-3 border-bottom d-flex align-items-center">
+            <i class="fas fa-clock text-primary me-2"></i>
+            <h5 class="mb-0 fw-bold text-dark">Add Opening Hours</h5>
         </div>
         <div class="card-body">
             <form enctype="multipart/form-data" method="POST" action="{{ route('handle.saveAboutus') }}">
@@ -16,8 +14,7 @@
 
                 @if ($errors->any())
                     <div class="alert alert-danger mb-4">
-                        <strong><i class="fas fa-exclamation-triangle me-1"></i>There were some problems with your input:</strong>
-                        <ul class="mb-0 mt-2">
+                        <ul class="mb-0">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -25,360 +22,340 @@
                     </div>
                 @endif
 
-                <!-- Day Range -->
-            <div class="row">
-                    <div class="mb-3 col-md-3">
-                        <label for="start_day" class="form-label fw-semibold">
-                            <i class="fas fa-calendar-day me-1 text-primary"></i>
-                            Start Day<span class="text-danger">*</span>
-                        </label>
-                        <select class="form-select form-select-lg" id="start_day" name="start_day" required>
-                            <option value="">Select Start Day</option>
-                                            @foreach (['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as $day)
-                                                <option value="{{ $day }}">{{ $day }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                <!-- Festival Toggle -->
+                <div class="mb-4">
+                    <div class="festival-toggle d-flex align-items-center">
+                        <label class="mb-0 me-2" for="isFestival">Festival Days Timing :-</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="isFestival" name="is_festival" value="1">
+                        </div>
+                    </div>
+                    <div class="text-muted small mt-1">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Enable this for special festival day timings
+                    </div>
+                </div>
 
-                    <div class="mb-3 col-md-3">
-                        <label for="end_day" class="form-label fw-semibold">
-                            <i class="fas fa-calendar-day me-1 text-primary"></i>
-                            End Day<span class="text-danger">*</span>
-                        </label>
-                        <select class="form-select form-select-lg" id="end_day" name="end_day" required>
-                            <option value="">Select End Day</option>
-                                            @foreach (['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as $day)
-                                                <option value="{{ $day }}">{{ $day }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                <div class="row g-3">
+                    <!-- Start Day and End Day (hidden when festival) -->
+                    <div class="col-md-6 regular-days">
+                        <div class="form-group">
+                            <label class="form-label">Start Day<span class="text-danger">*</span></label>
+                            <select class="form-select" name="start_day" required>
+                                <option value="">Select Start Day</option>
+                                @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
+                                    <option value="{{ $day }}">{{ $day }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
-                    <!-- Time Range -->
-                    <div class="mb-3 col-md-3">
-                        <label for="start_time" class="form-label fw-semibold">
-                            <i class="fas fa-clock me-1 text-primary"></i>
-                            Start Time<span class="text-danger">*</span>
-                        </label>
-                        <input type="time" class="form-control form-control-lg" id="start_time" name="start_time" required>
-                                </div>
+                    <div class="col-md-6 regular-days">
+                        <div class="form-group">
+                            <label class="form-label">End Day<span class="text-danger">*</span></label>
+                            <select class="form-select" name="end_day" required>
+                                <option value="">Select End Day</option>
+                                @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
+                                    <option value="{{ $day }}">{{ $day }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
-                    <div class="mb-3 col-md-3">
-                        <label for="end_time" class="form-label fw-semibold">
-                            <i class="fas fa-clock me-1 text-primary"></i>
-                            End Time<span class="text-danger">*</span>
-                        </label>
-                        <input type="time" class="form-control form-control-lg" id="end_time" name="end_time" required>
-                                    </div>
-                                </div>
+                    <!-- Time Fields -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label time-label">Opening Time<span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" name="start_time" required>
+                        </div>
+                    </div>
 
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="fas fa-save me-1"></i>Save Opening Hours
-                    </button>
-                    <button type="reset" class="btn btn-outline-secondary btn-lg ms-2">
-                        <i class="fas fa-undo me-1"></i>Reset
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label time-label">Closing Time<span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" name="end_time" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i>Save Changes
                     </button>
                 </div>
             </form>
-                            </div>
-                        </div>
+        </div>
+    </div>
 
     <!-- Opening Hours Table -->
     <div class="card shadow-sm border-0">
         <div class="card-header bg-white py-3 border-bottom">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-                <div>
-                    <h5 class="mb-1 fw-bold text-dark">
-                        <i class="fas fa-calendar-alt text-primary me-2"></i>
-                        Opening Hours Schedule
-                    </h5>
-                    <small class="text-muted">Total {{ count($aboutus) }} time slot(s)</small>
-                </div>
-                <div class="d-flex gap-2">
-                    <div class="input-group" style="width: 300px;">
-                        <input type="text" class="form-control" id="searchTimeSlots" placeholder="Search time slots..." style="border-right: none; height: 38px;" />
-                        <button class="btn" type="button" style="background: linear-gradient(135deg, #5d1a1e 0%, #7d2428 100%); color: white; border: 1px solid #5d1a1e; border-left: none; height: 38px; padding: 0 15px;">
-                            <i class="fas fa-search"></i>
-                        </button>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-calendar-alt text-primary me-2"></i>
+                    <div>
+                        <h5 class="mb-0 fw-bold text-dark">Opening Hours Schedule</h5>
+                        <small class="text-muted">Total {{ count($aboutus) }} time slot(s)</small>
                     </div>
+                </div>
+                <div class="search-box">
+                    <input type="text" class="form-control" id="searchTimeSlots" placeholder="Search time slots...">
                 </div>
             </div>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0" id="timeSlotsTable">
-                    <thead class="bg-light">
+                <table class="table mb-0" id="timeSlotsTable">
+                    <thead>
                         <tr>
-                            <th class="border-0 px-3 py-3 text-center" style="width: 60px;">
-                                <small class="fw-bold text-uppercase text-muted">#</small>
-                            </th>
-                            <th class="border-0 px-3 py-3" style="min-width: 200px;">
-                                <small class="fw-bold text-uppercase text-muted">Days</small>
-                            </th>
-                            <th class="border-0 px-3 py-3" style="min-width: 200px;">
-                                <small class="fw-bold text-uppercase text-muted">Time</small>
-                            </th>
-                            <th class="border-0 px-3 py-3 text-center" style="width: 120px;">
-                                <small class="fw-bold text-uppercase text-muted">Actions</small>
-                            </th>
+                            <th class="ps-3">#</th>
+                            <th>Type</th>
+                            <th>Days</th>
+                            <th>Time</th>
+                            <th class="text-end pe-3">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($aboutus as $key => $row)
-                            <tr class="border-bottom">
-                                <td class="px-3 py-3 text-center">
-                                    <span class="badge text-white rounded-pill" style="background-color: #5d1a1e;">{{ $key + 1 }}</span>
-                                    </td>
-                                <td class="px-3 py-3">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-calendar-week text-primary me-2"></i>
-                                        <div class="flex-grow-1">
-                                            <div class="fw-semibold text-dark">{{ $row['start_day'] }} - {{ $row['end_day'] }}</div>
-                                            <small class="text-muted">Weekly Schedule</small>
-                                        </div>
-                                    </div>
+                            <tr>
+                                <td class="ps-3">{{ $key + 1 }}</td>
+                                <td>
+                                    @if($row['is_festival'])
+                                        <span class="badge bg-info">Festival Days</span>
+                                    @else
+                                        <span class="badge bg-success">Regular Days</span>
+                                    @endif
                                 </td>
-                                <td class="px-3 py-3">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-clock text-success me-2"></i>
-                                        <div class="flex-grow-1">
-                                            <div class="fw-semibold text-dark">{{ $row['start_time'] }} - {{ $row['end_time'] }}</div>
-                                            <small class="text-muted">Operating Hours</small>
-                                        </div>
-                                    </div>
+                                <td>
+                                    @if($row['is_festival'])
+                                        Festival Days
+                                    @else
+                                        {{ $row['start_day'] }} - {{ $row['end_day'] }}
+                                    @endif
                                 </td>
-                                <td class="px-3 py-3 text-center">
-                                    <div class="d-flex gap-1 justify-content-center">
-                                        <a href="/edittimerange/{{ $row['id'] }}"
-                                           class="btn btn-sm btn-outline-primary"
-                                           title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="{{ route('handle.deleteTimerange', $row['id']) }}"
-                                              method="post"
-                                              style="display: inline;">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-outline-danger"
-                                                    title="Delete"
-                                                    onclick="return confirm('Are you sure you want to delete this time slot?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
+                                <td>{{ $row['start_time'] }} - {{ $row['end_time'] }}</td>
+                                <td class="text-end pe-3">
+                                    <a href="/edittimerange/{{ $row['id'] }}" class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('handle.deleteTimerange', $row['id']) }}" method="post" class="d-inline">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-5">
-                                    <div class="py-4">
-                                        <i class="fas fa-clock fa-2x text-muted mb-3"></i>
-                                        <h6 class="text-muted">No opening hours found</h6>
-                                        <p class="text-muted small mb-0">Add your first opening hours above.</p>
-                                </div>
+                                <td colspan="5" class="text-center py-4">
+                                    <i class="fas fa-clock text-muted d-block mb-2"></i>
+                                    <p class="text-muted mb-0">No opening hours found</p>
                                 </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
-                </div>
             </div>
+        </div>
     </div>
 </div>
 
 <style>
-/* Form Styling */
-.form-control-lg, .form-select-lg {
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    border: 2px solid #e9ecef;
-    transition: all 0.3s ease;
+/* Card Styling */
+
+
+.form-switch .form-check-input{
+    margin: 0px !important;
+    position: relative !important;
+    width: 4rem !important;
 }
 
-.form-control-lg:focus, .form-select-lg:focus {
+.card {
+    border-radius: 8px;
+}
+
+.card-header {
+    background-color: #fff !important;
+}
+
+/* Form Controls */
+.form-control, .form-select {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+}
+
+.form-control:focus, .form-select:focus {
     border-color: #5d1a1e;
-    box-shadow: 0 0 0 0.25rem rgba(93, 26, 30, 0.25);
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 0.2rem rgba(93, 26, 30, 0.15);
 }
 
-.form-label {
-    color: #495057;
-    margin-bottom: 0.75rem;
+/* Festival Toggle Switch Styling */
+.festival-toggle {
+    position: relative;
 }
 
-.form-label i {
-    width: 16px;
+.festival-toggle label {
+    font-size: 0.95rem;
+    color: #212529;
+    cursor: pointer;
+    min-width: fit-content;
+}
+
+.form-check.form-switch {
+    padding: 0;
+    margin: 0;
+    height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    width: 40px;
+    height: 24px;
+    margin: 0;
+    cursor: pointer;
+    background-color: #e9ecef;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='white'/%3e%3c/svg%3e");
+    border: 1px solid #dee2e6;
+    border-radius: 24px;
+}
+
+.form-check-input:checked {
+    background-color: #5d1a1e;
+    border-color: #5d1a1e;
+}
+
+.form-check-input:focus {
+    box-shadow: none;
+    border-color: #dee2e6;
+}
+
+.form-check-input:checked:focus {
+    border-color: #5d1a1e;
 }
 
 /* Table Styling */
 .table {
     font-size: 0.9rem;
-    line-height: 1.5;
 }
 
 .table th {
     font-weight: 600;
-    background-color: #f8f9fa !important;
-    border-top: 1px solid #dee2e6;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
 }
 
 .table td {
-    border-left: none;
-    border-right: none;
-    border-top: none;
-}
-
-.table tbody tr {
-    border-bottom: 1px solid #f1f3f4;
-}
-
-.table tbody tr:hover {
-    background-color: rgba(93, 26, 30, 0.05);
-}
-
-.table tbody tr:last-child {
-    border-bottom: none;
-}
-
-/* Card Styling */
-.card {
-    border-radius: 0.75rem;
-    overflow: hidden;
-}
-
-.card-header {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
-}
-
-/* Button Styling */
-.btn-lg {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(93, 26, 30, 0.3);
-}
-
-/* Search Input Group Styling */
-.input-group {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 6px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.input-group:hover {
-    box-shadow: 0 4px 12px rgba(93, 26, 30, 0.15);
-}
-
-.input-group .form-control {
-    border: 1px solid #dee2e6;
-    box-shadow: none;
-    font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
-}
-
-.input-group .form-control:focus {
-    border-color: #5d1a1e;
-    box-shadow: none;
-    z-index: 3;
-}
-
-.input-group .btn {
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.input-group .btn:hover {
-    background: linear-gradient(135deg, #7d2428 0%, #9d343a 100%) !important;
-    transform: none;
-    box-shadow: 0 2px 8px rgba(93, 26, 30, 0.3);
-}
-
-/* Alert Styling */
-.alert-danger {
-    border-left: 4px solid #dc3545;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-/* Icon Styling */
-.text-primary {
-    color: #5d1a1e !important;
+    vertical-align: middle;
+    color: #212529;
 }
 
 /* Badge Styling */
 .badge {
-    font-size: 0.8rem;
-    padding: 0.5rem 0.75rem;
+    font-weight: 500;
+    padding: 0.4em 0.8em;
 }
 
-/* Enhanced Hover Effects */
-.card:hover {
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
-    transition: box-shadow 0.3s ease;
+/* Search Box */
+.search-box .form-control {
+    width: 250px;
+    padding-right: 2rem;
 }
 
-/* Responsive Design */
+/* Button Styling */
+.btn-primary {
+    background-color: #5d1a1e;
+    border-color: #5d1a1e;
+}
+
+.btn-primary:hover {
+    background-color: #4a1518;
+    border-color: #4a1518;
+}
+
+.btn-outline-primary {
+    color: #5d1a1e;
+    border-color: #5d1a1e;
+}
+
+.btn-outline-primary:hover {
+    background-color: #5d1a1e;
+    border-color: #5d1a1e;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-    .container-fluid {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
-    .btn-lg {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.9rem;
-    }
-
-    .d-flex.gap-2 {
-        flex-direction: column;
+    .search-box .form-control {
         width: 100%;
-        align-items: stretch;
     }
-
-    .input-group {
-        width: 100% !important;
-    }
-}
-
-/* Form Loading States */
-.btn-primary:disabled {
-    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-    border-color: #6c757d;
 }
 </style>
 
-    <script>
-    // Search functionality for time slots
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchTimeSlots');
-        const tableRows = document.querySelectorAll('#timeSlotsTable tbody tr');
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const isFestivalToggle = document.getElementById('isFestival');
+    const regularDaysFields = document.querySelectorAll('.regular-days');
+    const timeLabels = document.querySelectorAll('.time-label');
 
-        if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase().trim();
-                let visibleCount = 0;
+    function updateFields() {
+        const isFestival = isFestivalToggle.checked;
+        
+        regularDaysFields.forEach(field => {
+            field.style.display = isFestival ? 'none' : 'block';
+            field.querySelector('select').required = !isFestival;
+        });
 
-                tableRows.forEach(row => {
-                    if (row.cells.length === 1) return; // Skip empty state row
+        timeLabels.forEach(label => {
+            label.textContent = isFestival ? 'Festival ' + label.textContent : label.textContent.replace('Festival ', '');
+        });
+    }
 
-                    const text = row.textContent.toLowerCase();
-                    const isVisible = text.includes(searchTerm);
+    isFestivalToggle.addEventListener('change', updateFields);
+    updateFields(); // Initial state
 
-                    row.style.display = isVisible ? '' : 'none';
-                    if (isVisible) visibleCount++;
-                });
-            });
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        if (!validateTimeRange()) {
+            e.preventDefault();
         }
     });
+
+    function validateTimeRange() {
+        const startTime = document.getElementById('start_time').value;
+        const endTime = document.getElementById('end_time').value;
+
+        if (startTime && endTime && startTime >= endTime) {
+            alert('End time must be after start time');
+            document.getElementById('end_time').focus();
+            return false;
+        }
+        return true;
+    }
+
+    // Search functionality for time slots
+    const searchInput = document.getElementById('searchTimeSlots');
+    const tableRows = document.querySelectorAll('#timeSlotsTable tbody tr');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            tableRows.forEach(row => {
+                if (row.cells.length === 1) return; // Skip empty state row
+
+                const text = row.textContent.toLowerCase();
+                const isVisible = text.includes(searchTerm);
+
+                row.style.display = isVisible ? '' : 'none';
+                if (isVisible) visibleCount++;
+            });
+        });
+    }
 
     // Form submission handling with loading states
     document.querySelectorAll('form').forEach(form => {
@@ -416,26 +393,7 @@
             }
         });
     });
-
-    // Time validation
-    function validateTimeRange() {
-        const startTime = document.getElementById('start_time').value;
-        const endTime = document.getElementById('end_time').value;
-
-        if (startTime && endTime && startTime >= endTime) {
-            alert('End time must be after start time');
-            document.getElementById('end_time').focus();
-            return false;
-        }
-        return true;
-    }
-
-    // Add time validation to form submission
-    document.querySelector('form[action*="saveAboutus"]').addEventListener('submit', function(e) {
-        if (!validateTimeRange()) {
-            e.preventDefault();
-        }
-        });
-    </script>
+});
+</script>
 
 @endsection

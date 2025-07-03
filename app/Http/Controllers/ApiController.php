@@ -16,6 +16,7 @@ use App\Models\Acharya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Services\YoutubeService;
+use App\Models\Aboutus;
 
 class ApiController extends Controller
 {
@@ -386,5 +387,38 @@ class ApiController extends Controller
         }
     }
 
+
+    public function getSettings(){
+        try{
+            $aboutus = Aboutus::all();
+            $settings = Setting::first();
+
+            $settings['our_timings'] = $aboutus;
+            $data = [
+                'error' => false,
+                'data' => $settings,
+            ];
+            return response()->json($data);
+        }catch(\Exception $e){
+            return response()->json(['error' => true, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function getTimings(){
+        try{
+            $timings = Aboutus::all();
+            $data = [
+                'error' => false,
+                'data' => $timings
+            ];
+            return response()->json($data);
+        }catch(\Exception $e){
+            $data = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+            return response()->json($data);
+        }
+    }
 
 }
