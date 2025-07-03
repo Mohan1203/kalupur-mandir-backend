@@ -56,35 +56,30 @@
                 <span class="menu-title">Event Gallery</span>
             </a>
         </li>
-        
+
         <li class="nav-item">
             <a class="nav-link {{ request()->is('photogallery*') ? 'active' : '' }}" href="/photogallery">
                 <i class="bi bi-columns-gap fs-5"></i>
                 <span class="menu-title">Photo Gallery</span>
             </a>
         </li>
-        
-        <!-- <li class="nav-item">
-            <a class="nav-link {{ request()->is('video*') ? 'active' : '' }}" href="/settings">
-               <i class="bi bi-play-circle fs-5"></i>
-                <span class="menu-title">Video Gallery</span>
-            </a>
-        </li> -->
+
+
 
          <li class="nav-item">
             <a class="nav-link {{ request()->is('aboutus*') ? 'active' : '' }}" href="/aboutus">
-                <i class="bi bi-people fs-4"></i>
-                <span class="menu-title">About Us</span>
+                <i class="bi bi-clock-history fs-4"></i>
+                <span class="menu-title">Our Timing</span>
             </a>
         </li>
-        
+
          <li class="nav-item">
             <a class="nav-link {{ request()->is('pages*') ? 'active' : '' }}" href="/pages">
                 <i class="bi bi-file-earmark fs-4"></i>
                 <span class="menu-title">Pages</span>
             </a>
         </li>
-        
+
          <li class="nav-item">
             <a class="nav-link {{ request()->is('settings*') ? 'active' : '' }}" href="/settings">
                 <i class="bi bi-gear fs-4"></i>
@@ -103,7 +98,7 @@
     background: linear-gradient(135deg, #5d1a1e 0%, #7d2428 100%) !important;
     color: #ffffff !important;
     border-radius: 0;
-    
+
     /* margin: 0px 8px; */
     box-shadow: 0 4px 12px rgba(93, 26, 30, 0.4);
     transform: translateX(2px);

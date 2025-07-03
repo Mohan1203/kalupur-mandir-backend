@@ -13,7 +13,7 @@
         <div class="card-body">
             <form enctype="multipart/form-data" method="POST" action="{{ route('handle.saveAboutus') }}">
                 @csrf
-                
+
                 @if ($errors->any())
                     <div class="alert alert-danger mb-4">
                         <strong><i class="fas fa-exclamation-triangle me-1"></i>There were some problems with your input:</strong>
@@ -24,7 +24,7 @@
                         </ul>
                     </div>
                 @endif
-                
+
                 <!-- Day Range -->
             <div class="row">
                     <div class="mb-3 col-md-3">
@@ -39,7 +39,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                    
+
                     <div class="mb-3 col-md-3">
                         <label for="end_day" class="form-label fw-semibold">
                             <i class="fas fa-calendar-day me-1 text-primary"></i>
@@ -70,7 +70,7 @@
                         <input type="time" class="form-control form-control-lg" id="end_time" name="end_time" required>
                                     </div>
                                 </div>
-                
+
                 <div class="mt-3">
                     <button type="submit" class="btn btn-primary btn-lg">
                         <i class="fas fa-save me-1"></i>Save Opening Hours
@@ -149,18 +149,18 @@
                                 </td>
                                 <td class="px-3 py-3 text-center">
                                     <div class="d-flex gap-1 justify-content-center">
-                                        <a href="/edittimerange/{{ $row['id'] }}" 
-                                           class="btn btn-sm btn-outline-primary" 
+                                        <a href="/edittimerange/{{ $row['id'] }}"
+                                           class="btn btn-sm btn-outline-primary"
                                            title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('handle.deleteTimerange', $row['id']) }}" 
-                                              method="post" 
+                                        <form action="{{ route('handle.deleteTimerange', $row['id']) }}"
+                                              method="post"
                                               style="display: inline;">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" 
-                                                    class="btn btn-sm btn-outline-danger" 
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-danger"
                                                     title="Delete"
                                                     onclick="return confirm('Are you sure you want to delete this time slot?')">
                                                 <i class="fas fa-trash"></i>
@@ -332,18 +332,18 @@
         padding-left: 1rem;
         padding-right: 1rem;
     }
-    
+
     .btn-lg {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
     }
-    
+
     .d-flex.gap-2 {
         flex-direction: column;
         width: 100%;
         align-items: stretch;
     }
-    
+
     .input-group {
         width: 100% !important;
     }
@@ -369,10 +369,10 @@
 
                 tableRows.forEach(row => {
                     if (row.cells.length === 1) return; // Skip empty state row
-                    
+
                     const text = row.textContent.toLowerCase();
                     const isVisible = text.includes(searchTerm);
-                    
+
                     row.style.display = isVisible ? '' : 'none';
                     if (isVisible) visibleCount++;
                 });
@@ -388,7 +388,7 @@
                 const originalText = submitBtn.innerHTML;
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Saving...';
-                
+
                 // Re-enable button after 3 seconds (in case of errors)
                 setTimeout(() => {
                     submitBtn.disabled = false;
@@ -408,7 +408,7 @@
                 this.classList.add('is-valid');
             }
         });
-        
+
         input.addEventListener('input', function() {
             if (this.classList.contains('is-invalid') && this.value.trim()) {
                 this.classList.remove('is-invalid');
@@ -421,7 +421,7 @@
     function validateTimeRange() {
         const startTime = document.getElementById('start_time').value;
         const endTime = document.getElementById('end_time').value;
-        
+
         if (startTime && endTime && startTime >= endTime) {
             alert('End time must be after start time');
             document.getElementById('end_time').focus();

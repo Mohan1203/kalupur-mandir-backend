@@ -36,6 +36,7 @@ class SettingController extends Controller
             'phone_number' => 'nullable|string',
             'address' => 'nullable|string',
             'iframe_key' => 'nullable|string',
+            'whatsapp_number' => 'nullable|string'
         ]);
 
         $setting = Setting::first();
@@ -59,19 +60,23 @@ class SettingController extends Controller
         if ($request->filled('email')) {
             $setting->email = $request->email;
         }
-        
+
         if ($request->filled('phone_number')) {
             $setting->contact_number = $request->phone_number;
         }
-        
+
         if ($request->filled('address')) {
             $setting->address = $request->address;
         }
-        
+
         // Process iframe HTML to extract src URL
         if ($request->filled('iframe_key')) {
             $iframeSrc = $this->extractIframeSrc($request->iframe_key);
             $setting->iframe_key = $iframeSrc;
+        }
+
+        if($request->filled('whatsapp_number')){
+            $setting->whatsapp_number = $request->whatsapp_number;
         }
 
         $setting->save();
@@ -85,10 +90,10 @@ class SettingController extends Controller
     {
         // Remove any extra whitespace and newlines
         $iframeHtml = trim($iframeHtml);
-        
+
         // Use regex to extract src attribute from iframe
         preg_match('/src=["\']([^"\']+)["\']/', $iframeHtml, $matches);
-        
+
         // Return the src URL if found, otherwise return the original input
         return isset($matches[1]) ? $matches[1] : $iframeHtml;
     }

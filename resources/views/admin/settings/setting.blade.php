@@ -6,7 +6,7 @@
         <div class="col-12">
             <form enctype="multipart/form-data" method="POST" action="{{ route('handle.saveSettings') }}">
                 @csrf
-                
+
                 @if ($errors->any())
                     <div class="alert alert-danger mb-4">
                         <strong><i class="fas fa-exclamation-triangle me-1"></i>There were some problems with your input:</strong>
@@ -39,33 +39,33 @@
                                     <i class="fas fa-image me-1 text-primary"></i>
                                     Logo
                                 </label>
-                                <input type="file" 
-                                       class="form-control form-control-lg" 
-                                       id="logo" 
-                                       name="logo" 
+                                <input type="file"
+                                       class="form-control form-control-lg"
+                                       id="logo"
+                                       name="logo"
                                        accept="image/*">
                                         @if (!empty($setting->logo))
                                     <div class="mt-3">
                                         <label class="form-label fw-semibold text-muted">Current Logo:</label>
                                         <div class="logo-preview-container">
-                                            <img src="{{ config('app.url').'/'.$setting->logo }}" 
-                                                 alt="Setting Logo" 
+                                            <img src="{{ config('app.url').'/'.$setting->logo }}"
+                                                 alt="Setting Logo"
                                                  class="img-thumbnail"
                                                  style="max-width: 200px; max-height: 100px; object-fit: cover;">
                                         </div>
                                                     </div>
                                         @endif
                                 </div>
-                            
+
                             <div class="mb-4 col-md-6">
                                 <label for="description" class="form-label fw-semibold">
                                     <i class="fas fa-align-left me-1 text-primary"></i>
                                     Description
                                 </label>
-                                <textarea class="form-control form-control-lg" 
-                                          id="description" 
-                                          name="description" 
-                                          rows="6" 
+                                <textarea class="form-control form-control-lg"
+                                          id="description"
+                                          name="description"
+                                          rows="6"
                                           placeholder="Enter description">{{ $setting->description ?? '' }}</textarea>
                             </div>
                         </div>
@@ -82,69 +82,81 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="mb-4 col-md-6">
+                            <div class="mb-4 col-md-4">
                                 <label for="email" class="form-label fw-semibold">
                                     <i class="fas fa-envelope me-1 text-primary"></i>
                                     Email Address
                                 </label>
-                                <input type="email" 
-                                       class="form-control form-control-lg" 
-                                       id="email" 
-                                       name="email" 
-                                       value="{{ $setting->email ?? '' }}" 
+                                <input type="email"
+                                       class="form-control form-control-lg"
+                                       id="email"
+                                       name="email"
+                                       value="{{ $setting->email ?? '' }}"
                                        placeholder="Enter email address">
                             </div>
-                            
-                            <div class="mb-4 col-md-6">
+
+                            <div class="mb-4 col-md-4">
                                 <label for="phone_number" class="form-label fw-semibold">
                                     <i class="fas fa-phone me-1 text-primary"></i>
                                     Phone Number
                                 </label>
-                                <input type="tel" 
-                                       class="form-control form-control-lg" 
-                                       id="phone_number" 
-                                       name="phone_number" 
-                                       value="{{ $setting->contact_number ?? '' }}" 
+                                <input type="tel"
+                                       class="form-control form-control-lg"
+                                       id="phone_number"
+                                       name="phone_number"
+                                       value="{{ $setting->contact_number ?? '' }}"
                                        placeholder="Enter phone number">
                             </div>
-                            
+                            <div class="mb-4 col-md-4">
+                                <label for="whatsapp_number" class="form-label fw-semibold">
+                                    <i class="fa-brands fa-whatsapp me-1 text-primary"></i>
+                                    WhatsApp Number
+                                </label>
+                                <input type="tel"
+                                       class="form-control form-control-lg"
+                                       id="whatsapp_number"
+                                       name="whatsapp_number"
+                                       value="{{ $setting->whatsapp_number ?? '' }}"
+                                       placeholder="Enter whatsapp number">
+                            </div>
+
                             <div class="mb-4 col-12">
                                 <label for="address" class="form-label fw-semibold">
                                     <i class="fas fa-map-marker-alt me-1 text-primary"></i>
                                     Address
                                 </label>
-                                <textarea id="address" 
-                                          name="address" 
-                                          class="form-control form-control-lg" 
+                                <textarea id="address"
+                                          name="address"
+                                          class="form-control form-control-lg"
                                           rows="4"
                                           placeholder="Enter complete address">{{ $setting->address ?? '' }}</textarea>
                             </div>
-                            
+
                             <div class="mb-4 col-12">
                                 <label for="iframe_key" class="form-label fw-semibold">
                                     <i class="fas fa-map-marked-alt me-1 text-primary"></i>
                                     Google Maps Embed Code
                                 </label>
-                                <textarea id="iframe_key" 
-                                          name="iframe_key" 
-                                          class="form-control form-control-lg" 
+                                <textarea id="iframe_key"
+                                          name="iframe_key"
+                                          class="form-control form-control-lg"
                                           rows="4"
                                           placeholder="Paste your Google Maps iframe embed code here (e.g., <iframe src=&quot;https://www.google.com/maps/embed...&quot; ...></iframe>)">{{ $setting->iframe_key ?? '' }}</textarea>
                                 <small class="text-muted">
                                     <i class="fas fa-info-circle me-1"></i>
                                     Paste the complete iframe code from Google Maps. Only the src URL will be saved to the database.
                                 </small>
-                                
+
                                 @if(!empty($setting->iframe_key))
                                     <div class="mt-3">
                                         <label class="form-label fw-semibold text-muted">Current Map Preview:</label>
                                         <div class="map-preview-container">
-                                            <iframe src="{{ $setting->iframe_key }}" 
-                                                    width="100%" 
-                                                    height="250" 
-                                                    style="border:0; border-radius: 0.5rem;" 
-                                                    allowfullscreen="" 
-                                                    loading="lazy" 
+                                            <iframe src="{{ $setting->iframe_key }}"
+                                                    width="100%"
+                                                    height="250"
+                                                    style="border:0; border-radius: 0.5rem;"
+                                                    allowfullscreen=""
+                                                    loading="lazy"
                                                     referrerpolicy="no-referrer-when-downgrade">
                                             </iframe>
                                         </div>
@@ -377,7 +389,7 @@ code {
         padding-left: 1rem;
         padding-right: 1rem;
     }
-    
+
     .btn-lg {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
@@ -389,25 +401,25 @@ code {
 document.addEventListener('DOMContentLoaded', function() {
     // Google Maps iframe live preview functionality
     const iframeInput = document.getElementById('iframe_key');
-    
+
     if (iframeInput) {
         // Create live preview container
         const previewDiv = document.createElement('div');
         previewDiv.id = 'livePreviewContainer';
         previewDiv.style.display = 'none';
         iframeInput.parentNode.insertBefore(previewDiv, iframeInput.nextSibling);
-        
+
         // Add input event listener for live preview
         iframeInput.addEventListener('input', function() {
             const iframeCode = this.value.trim();
-            
+
             if (iframeCode) {
                 showLivePreview(iframeCode);
             } else {
                 hideLivePreview();
             }
         });
-        
+
         // Add paste event listener for better user experience
         iframeInput.addEventListener('paste', function(e) {
             setTimeout(() => {
@@ -418,11 +430,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 100);
         });
     }
-    
+
     function showLivePreview(iframeCode) {
         const previewContainer = document.getElementById('livePreviewContainer');
         const extractedSrc = extractIframeSrc(iframeCode);
-        
+
         if (extractedSrc && extractedSrc !== iframeCode) {
             // Valid iframe found
             previewContainer.innerHTML = `
@@ -432,12 +444,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         <h6 class="mb-0 fw-bold text-success">Live Preview</h6>
                     </div>
                     <div class="map-preview-container mb-3">
-                        <iframe src="${extractedSrc}" 
-                                width="100%" 
-                                height="250" 
-                                style="border:0; border-radius: 0.5rem;" 
-                                allowfullscreen="" 
-                                loading="lazy" 
+                        <iframe src="${extractedSrc}"
+                                width="100%"
+                                height="250"
+                                style="border:0; border-radius: 0.5rem;"
+                                allowfullscreen=""
+                                loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
@@ -501,46 +513,46 @@ document.addEventListener('DOMContentLoaded', function() {
             previewContainer.style.display = 'block';
         }
     }
-    
+
     function hideLivePreview() {
         const previewContainer = document.getElementById('livePreviewContainer');
         if (previewContainer) {
             previewContainer.style.display = 'none';
         }
     }
-    
+
     function extractIframeSrc(iframeHtml) {
         // Clean up the input - remove extra whitespace and newlines
         const cleanHtml = iframeHtml.trim().replace(/\s+/g, ' ');
-        
+
         // Try multiple regex patterns to extract src attribute
         const srcPatterns = [
             /src=["\']([^"\']+)["\']/i,      // Standard src="..." or src='...'
             /src=([^\s>]+)/i,                // src=... without quotes
             /src\s*=\s*["\']([^"\']+)["\']/i // src with spaces
         ];
-        
+
         for (const pattern of srcPatterns) {
             const match = cleanHtml.match(pattern);
             if (match && match[1]) {
                 let srcUrl = match[1];
-                
+
                 // Clean up the URL - remove any trailing characters that aren't part of the URL
                 srcUrl = srcUrl.replace(/["\'\s>].*$/, '');
-                
+
                 // Validate that it's a Google Maps URL
                 if (srcUrl.includes('google.com/maps') || srcUrl.includes('maps.google.com')) {
                     return srcUrl;
                 }
             }
         }
-        
+
         // If no src found but looks like a Google Maps URL directly, return as is
-        if ((cleanHtml.startsWith('http') || cleanHtml.startsWith('//')) && 
+        if ((cleanHtml.startsWith('http') || cleanHtml.startsWith('//')) &&
             (cleanHtml.includes('google.com/maps') || cleanHtml.includes('maps.google.com'))) {
             return cleanHtml;
         }
-        
+
         return null;
     }
 
@@ -551,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalText = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Updating...';
-            
+
             // Re-enable button after 5 seconds (in case of errors)
             setTimeout(() => {
                 submitBtn.disabled = false;
@@ -572,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-        
+
         input.addEventListener('input', function() {
             if (this.classList.contains('is-invalid') && this.value.trim()) {
                 this.classList.remove('is-invalid');
