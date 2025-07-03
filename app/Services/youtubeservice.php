@@ -24,7 +24,7 @@ class YoutubeService {
     $cachedVideos = Cache::get($this->cacheKey, []);
 
     // If cache is empty OR offset is beyond cached data, fetch from YouTube
-    if (empty($cachedVideos) || $offset >= count($cachedVideos)) {
+    if (empty($cachedVideos)) {
         $fetchedVideos = $this->fetchYoutubeVideos();
 
         if (!empty($fetchedVideos)) {
@@ -105,7 +105,7 @@ class YoutubeService {
         $cachedPlaylist = Cache::get($this->playlistcacheKey, []);
 
     // If cache is empty OR offset is beyond cached data, fetch from YouTube
-    if (empty($cachedPlaylist) || $offset >= count($cachedPlaylist)) {
+    if (empty($cachedPlaylist)) {
         $fetchedPlaylist = $this->fetchYoutubePlaylist();
         if (!empty($fetchedPlaylist)) {
             // Save to cache
