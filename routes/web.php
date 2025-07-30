@@ -14,6 +14,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\YajmanController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\SeoDetailController;
 
 Route::get('/login', [LoginController::class,'index'])->name('login');
 Route::post('/login', [LoginController::class,'authenticate'])->name('handle.authenticate');
@@ -96,6 +97,14 @@ Route::group(['middleware'=>['auth']],function(){
     Route::post("/pages/cookie-policy",[PagesController::class,'saveCookiePolicy'])->name('handle.saveCookiePolicy');
     Route::post("/pages/privacy-policy",[PagesController::class,'savePrivacyPolicy'])->name('handle.savePrivacyPolicy');
     Route::post("/pages/terms-conditions",[PagesController::class,'saveTermsConditions'])->name('handle.saveTermsConditions');
+
+    // SEO Routes
+    Route::get("/seo",[SeoDetailController::class,'index'])->name('seo.index');
+    Route::post("/seo",[SeoDetailController::class,'store'])->name('handle.saveseo');
+    Route::get('/seo/{id}/edit', [SeoDetailController::class, 'edit'])->name('seo.edit');
+    Route::put('/seo/{id}', [SeoDetailController::class, 'update'])->name('handle.updateseo');
+    Route::delete('/seo/{id}', [SeoDetailController::class, 'destroy'])->name('handle.deleteseo');
+
 
     // Settings Routes
     Route::get("/settings",[SettingController::class,'index'])->name('settings.index');

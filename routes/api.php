@@ -22,5 +22,8 @@ Route::get('/get_timings', [ApiController::class, 'getTimings']);
 // get acharyas
 Route::get('/acharyas-list', [ApiController::class, 'getAcharyas']);
 
+Route::get('/get_seo',[ApiController::class,'getSeoSetting']);
+
 Route::post('/contact_us', [ApiController::class, 'contactUs']);
 Route::post('/donation', [ApiController::class, 'donation']);
+Route::post('/pooja-booking',[ApiController::class,'bookingDetails']);

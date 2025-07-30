@@ -15,8 +15,10 @@ use App\Models\Donations;
 use App\Models\Acharya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Services\YoutubeService;
+use App\Services\youtubeservice;
 use App\Models\Aboutus;
+use App\Models\SeoDetails;
+use App\Models\PoojaBooking;
 
 class ApiController extends Controller
 {
@@ -163,33 +165,39 @@ class ApiController extends Controller
         }
     }
 
-    public function getPhotoGallery()
+    public function getPhotoGallery(Request $request)
     {
-        try {
-            $limit = $request->limit ?? 6;
-            $offset = $request->offset ?? 0;
-            $photoGallery = PhotoGallery::orderBy('created_at', 'desc')
-                ->skip($offset)
-                ->take($limit)
-                ->get();
-            $photoGallery->map(function ($item) {
-                $item->image = asset(env('APP_URL') . '/' . $item->image);
-                return $item;
-            });
-            $data = [
-                'success' => true,
-                'data' => $photoGallery
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            $data = [
-                'success' => false,
-                'error' => 'An error occurred while fetching data.',
-                'message' => $e->getMessage()
-            ];
-            return response()->json($data);
-        }
+    try {
+        $limit = $request->query('limit', 6);
+        $offset = $request->query('offset', 0);
+
+        $total = PhotoGallery::count();
+
+        $photoGallery = PhotoGallery::orderBy('created_at', 'desc')
+            ->skip($offset)
+            ->take($limit)
+            ->get();
+
+        $photoGallery->transform(function ($item) {
+            $item->image = asset($item->image);
+            return $item;
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $photoGallery,
+            'total' => $total,
+            'limit' => (int)$limit,
+            'offset' => (int)$offset,
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'error' => 'An error occurred while fetching data.',
+            'message' => $e->getMessage(),
+        ]);
     }
+}
 
     public function getSubPhotoGallery(string $slug)
     {
@@ -303,8 +311,8 @@ class ApiController extends Controller
             $data = [
                 'success' => true,
                 'data' => [
-                    'maha_pooja' => $maha_pooja,
-                    'yagna' => $yagna
+                    $maha_pooja,
+                    $yagna
                 ]
             ];
             return response()->json($data);
@@ -361,9 +369,6 @@ class ApiController extends Controller
         }
     }
 
-
-
-
     public function getAcharyas(Request $request){
         $limit = $request->limit ?? 10;
         $offset = $request->offset ?? 0;
@@ -394,6 +399,8 @@ class ApiController extends Controller
             $settings = Setting::first();
 
             $settings['our_timings'] = $aboutus;
+            $settings['mahapuja_image'] = $settings['mahapuja_image'] ? asset(env('APP_URL') . '/' . $settings['mahapuja_image']) : null;
+            $settings["yagna_image"] = $settings['yagna_image'] ? asset(env('APP_URL') . '/' . $settings['yagna_image']) : null;
             $data = [
                 'error' => false,
                 'data' => $settings,
@@ -419,6 +426,81 @@ class ApiController extends Controller
             ];
             return response()->json($data);
         }
+    }
+
+    public function getSeoSetting(Request $request) {
+        try{
+            $page = $request->page;
+            $pageData = SeoDetails::where('page_name',$page)->first();
+             $data = [
+                'error' => false,
+                'data' => $pageData,
+            ];
+            return response()->json($data);
+        }catch(\Exception $e){
+            return response()->json(['error' => true, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function bookingDetails(Request $request){
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'village' => 'required',
+            'location' => 'required|in:domestic,international',
+            'phone_number' => "required",
+            'way_of_contact' => 'required',
+            "date" => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        try{
+
+            $bookingDate = PoojaBooking::where('booking_date',$request->date)->first();
+
+            if($bookingDate){
+                $data = [
+                    'error' => true,
+                    'message' => "This date is already booked",
+                ];
+                return response()->json($data);
+            }
+                 $poojaBooking = PoojaBooking::create([
+                "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
+                "village" => $request->village,
+                "location" => $request->location,
+                "phone_number" => $request->phone_number,
+                "way_of_contact" => $request->way_of_contact,
+                "booking_date" => $request->date
+            ]);
+
+            $data = [
+                'error' => false,
+                'message' => "Pooja details saved successfully",
+            ];
+
+            return response()->json($data);
+
+        }catch(\Exception $e){
+             $data = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+            return response()->json($data);
+        }
+
+
+
+
+
+
     }
 
 }
