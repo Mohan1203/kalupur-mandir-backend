@@ -23,9 +23,15 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link {{ request()->is('pooja-booking*') ? 'active' : '' }}" href="/pooja-booking">
+                <i class="bi bi-fire fs-4"></i>
+                <span class="menu-title">Pooja Bookings</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link {{ request()->is('bookings*') ? 'active' : '' }}" href="/bookings">
                 <i class="bi bi-card-list fs-4"></i>
-                <span class="menu-title">Booking</span>
+                <span class="menu-title">Booking Details</span>
             </a>
         </li>
 

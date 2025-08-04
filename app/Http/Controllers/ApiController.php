@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+use App\Services\youtubeservice;
+
 use App\Models\EventGallery;
 use App\Models\EventSubGallery;
 use App\Models\ParsadiDarshan;
@@ -13,9 +19,6 @@ use App\Models\Yajman;
 use App\Models\Booking;
 use App\Models\Donations;
 use App\Models\Acharya;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Services\youtubeservice;
 use App\Models\Aboutus;
 use App\Models\SeoDetails;
 use App\Models\PoojaBooking;
@@ -231,6 +234,7 @@ class ApiController extends Controller
 
     public function contactUs(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -247,11 +251,17 @@ class ApiController extends Controller
         }
 
         try {
+            Mail::raw($request->message, function($message) use ($request) {
+                $message->from($request->email, $request->firstname . ' ' . $request->lastname)
+                        ->to(config('mail.from.address'))
+                        ->subject("Contact Us: " . $request->message);
+            });
             return response()->json([
                 'error' => false,
                 'message' => 'Message sent successfully'
             ]);
         } catch (\Exception $e) {
+            dd($e);
             return response()->json([
                 'error' => true,
                 'message' => $e->getMessage()

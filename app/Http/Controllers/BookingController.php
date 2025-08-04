@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\PoojaBooking;
 
 use Illuminate\Http\Request;
 
@@ -16,6 +17,11 @@ class BookingController extends Controller
         $booking = Booking::first();
 
         return view('admin.booking.booking',compact('booking'));
+    }
+
+    public function sendPoojaBookings(){
+        $poojaBookings = PoojaBooking::all();
+        return view('admin.pooja-bookings.poojabooking',compact('poojaBookings'));
     }
 
     /**
@@ -43,7 +49,7 @@ class BookingController extends Controller
                     $booking->pooja_description = $request->pooja_description;
                     $message = 'Pooja description saved successfully!';
                     break;
-                    
+
                 case 'yagna':
                     $request->validate([
                         'yagna_description' => 'required|string'
@@ -51,7 +57,7 @@ class BookingController extends Controller
                     $booking->yagna_description = $request->yagna_description;
                     $message = 'Yagna description saved successfully!';
                     break;
-                    
+
                 default:
                     // If type is not recognized, save both (fallback)
                     $booking->pooja_description = $request->pooja_description;

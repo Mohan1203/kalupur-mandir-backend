@@ -114,6 +114,7 @@ Route::group(['middleware'=>['auth']],function(){
 
     // Donation Routes
     Route::get("/donation",[DonationController::class,'index'])->name('donation.index');
+    Route::get('/pooja-booking',[BookingController::class,'sendPoojaBookings']);
 });
 
 

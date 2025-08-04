@@ -23,7 +23,7 @@
                         </ul>
                     </div>
                 @endif
-                
+
                 <div class="row">
                     <div class="mb-3 col-md-6">
                         <label for="name" class="form-label fw-semibold">Acharya Name<span class="text-danger">*</span></label>
@@ -34,13 +34,13 @@
                         <label for="image" class="form-label fw-semibold">Acharya Image<span class="text-danger">*</span></label>
                         <input type="file" class="form-control" id="image" name="image" accept="image/*">
                     </div>
-                    
+
                     <div class="col-12">
                         <label for="description" class="form-label fw-semibold">Acharya Description<span class="text-danger">*</span></label>
                         <textarea id="description" name="description"></textarea>
                     </div>
                 </div>
-                
+
                 <div class="mt-3">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save me-1"></i>Save Acharya
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0" id="acharyaTable">
@@ -116,9 +116,9 @@
                                 </td>
                                 <td class="px-3 py-3 text-center">
                                     <div class="avatar-container">
-                                        <img src="{{ asset(env('APP_URL').  '/' . $acharya->image) }}" 
-                                             class="rounded-circle border" 
-                                             width="50" height="50" 
+                                        <img src="{{ asset(env('APP_URL').  '/' . $acharya->image) }}"
+                                             class="rounded-circle border"
+                                             width="50" height="50"
                                              alt="Acharya Image"
                                              style="object-fit: cover; border: 2px solid #dee2e6;">
                                     </div>
@@ -145,8 +145,8 @@
                                 </td>
                                 <td class="px-3 py-3 text-center">
                                     <div class="form-check form-switch d-flex justify-content-center">
-                                        <input class="form-check-input current-acharya-toggle" 
-                                               type="checkbox" 
+                                        <input class="form-check-input current-acharya-toggle"
+                                               type="checkbox"
                                                data-acharya-id="{{ $acharya->id }}"
                                                {{ $acharya->is_current_acharya ? 'checked' : '' }}
                                                style="transform: scale(1.2);">
@@ -154,18 +154,18 @@
                                 </td>
                                 <td class="px-3 py-3 text-center">
                                     <div class="d-flex gap-1 justify-content-center">
-                                        <a href="/editacharya/{{ $acharya->id }}" 
-                                           class="btn btn-sm btn-outline-primary" 
+                                        <a href="/editacharya/{{ $acharya->id }}"
+                                           class="btn btn-sm btn-outline-primary"
                                            title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('handle.deleteAcharya', $acharya->id) }}" 
-                                              method="post" 
+                                        <form action="{{ route('handle.deleteAcharya', $acharya->id) }}"
+                                              method="post"
                                               style="display: inline;">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" 
-                                                    class="btn btn-sm btn-outline-danger" 
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-danger"
                                                     title="Delete"
                                                     onclick="return confirm('Are you sure you want to delete this acharya?')">
                                                 <i class="fas fa-trash"></i>
@@ -193,7 +193,7 @@
 </div>
 
 <style>
-/* Clean Table Styles */
+
 .table {
     font-size: 0.9rem;
     line-height: 1.5;
@@ -311,25 +311,25 @@
     .table-responsive {
         font-size: 0.8rem;
     }
-    
+
     .table th, .table td {
         padding: 0.5rem 0.25rem;
     }
-    
+
     .description-content {
         max-width: 200px;
     }
-    
+
     .d-flex.gap-2 {
         flex-direction: column;
         width: 100%;
         align-items: stretch;
     }
-    
+
     .input-group {
         width: 100% !important;
     }
-    
+
     .d-flex.gap-2 .btn {
         width: 100%;
         margin-bottom: 0.5rem;
@@ -341,7 +341,7 @@
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
-    
+
     .table {
         font-size: 0.75rem;
     }
@@ -380,10 +380,10 @@ document.addEventListener('DOMContentLoaded', function () {
         tableRows.forEach(row => {
             // Skip the empty state row
             if (row.cells.length === 1) return;
-            
+
             const text = row.textContent.toLowerCase();
             const isVisible = text.includes(searchTerm);
-            
+
             row.style.display = isVisible ? '' : 'none';
             if (isVisible) visibleCount++;
         });
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Current Acharya Toggle - Only one can be active
     const toggles = document.querySelectorAll('.current-acharya-toggle');
-    
+
     toggles.forEach(toggle => {
         toggle.addEventListener('change', function() {
             if (this.checked) {
@@ -407,7 +407,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         otherToggle.checked = false;
                     }
                 });
-                
+
                 // Here you can add AJAX call to update the database
                 updateCurrentAcharya(this.dataset.acharyaId);
             }
@@ -420,7 +420,7 @@ function toggleDescription(button) {
     const descriptionContent = button.closest('.description-content');
     const preview = descriptionContent.querySelector('.description-preview');
     const full = descriptionContent.querySelector('.description-full');
-    
+
     if (button.classList.contains('show-more')) {
         preview.classList.add('d-none');
         full.classList.remove('d-none');
