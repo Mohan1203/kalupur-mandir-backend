@@ -321,8 +321,8 @@ class ApiController extends Controller
             $data = [
                 'success' => true,
                 'data' => [
-                    $maha_pooja,
-                    $yagna
+                    "maha_pooja"=>$maha_pooja,
+                    "yagna"=>$yagna
                 ]
             ];
             return response()->json($data);
