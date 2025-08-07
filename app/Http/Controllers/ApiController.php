@@ -22,6 +22,7 @@ use App\Models\Acharya;
 use App\Models\Aboutus;
 use App\Models\SeoDetails;
 use App\Models\PoojaBooking;
+use App\Models\Pages;
 
 class ApiController extends Controller
 {
@@ -104,11 +105,13 @@ class ApiController extends Controller
         }
     }
 
-    public function getEventGallery()
+    public function getEventGallery(Request $request)
     {
         try {
-            $limit = $request->limit ?? 6;
-            $offset = $request->offset ?? 0;
+            $limit = $request->query('limit', 6);
+            $offset = $request->query('offset', 0);
+            $total = EventGallery::count();
+
             $eventGallery = EventGallery::orderBy('created_at', 'desc')
                 ->skip($offset)
                 ->take($limit)
@@ -120,7 +123,10 @@ class ApiController extends Controller
             });
             $data = [
                 'success' => true,
-                'data' => $eventGallery
+                'data' => $eventGallery,
+                'total' => $total,
+                'limit' => (int)$limit,
+                'offset' => (int)$offset,
             ];
             return response()->json($data);
         } catch (\Exception $e) {
@@ -510,6 +516,40 @@ class ApiController extends Controller
 
 
 
+
+    }
+
+    public function getPages(Request $request){
+        $page = $request->page;
+
+        try {
+            $pages = Pages::first();
+            if (!$pages) {
+                return response()->json(['error' => true, 'message' => 'Pages not found'], 404);
+            }
+
+            if( $page === 'cookie-policy') {
+                $content = $pages->cookie_policy;
+            } elseif ($page === 'privacy-policy') {
+                $content = $pages->privacy_policy;
+            } elseif ($page === 'terms-and-conditions') {
+                $content = $pages->terms_and_conditions;
+            } else {
+                return response()->json(['error' => true, 'message' => 'Invalid page requested'], 400);
+            }
+
+            $data = [
+                'error' => false,
+                'data' => [
+                    $content
+                ]
+            ];
+            return response()->json($data);
+
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => $e->getMessage()]);
+        }
 
     }
 

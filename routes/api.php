@@ -18,6 +18,7 @@ Route::get('/playlists',[ApiController::class,'getPlaylists']);
 Route::get('photo_gallery/{slug}', [ApiController::class, 'getSubPhotoGallery']);
 Route::get('/get_booking_info', [ApiController::class, 'getBooking']);
 Route::get('/get_timings', [ApiController::class, 'getTimings']);
+Route::get('/get_pages', [ApiController::class, 'getPages']);
 
 Route::get('/acharyas-list', [ApiController::class, 'getAcharyas']);
 

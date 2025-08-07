@@ -109,7 +109,7 @@ class EventGalleryController extends Controller
                 }
                 $imageName ='mainPhoto' . time() . '.' . $request->image->extension();
                 $request->image->move(public_path("images"), $imageName);
-                $gallery_image->image_path = 'images/' . $imageName;
+                $eventGallery->image_path = 'images/' . $imageName;
         }
         $eventGallery->save();
         return redirect('/eventgallery')->with('success', 'Event Gallery updated successfully.');
