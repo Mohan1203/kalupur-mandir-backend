@@ -20,8 +20,8 @@ class BookingController extends Controller
     }
 
     public function sendPoojaBookings(){
-        $poojaBookings = PoojaBooking::all();
-        return view('admin.pooja-bookings.poojabooking',compact('poojaBookings'));
+        $poojaBookings = PoojaBooking::orderBy('booking_date', 'desc')->get();
+        return view('admin.pooja-bookings.poojabooking', compact('poojaBookings'));
     }
 
     /**

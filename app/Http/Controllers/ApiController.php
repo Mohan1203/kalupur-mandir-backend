@@ -364,6 +364,38 @@ class ApiController extends Controller
         }
     }
 
+    public function getSearchedVideo(Request $request){
+        try{
+             $searchTerm = $request->search;
+            if (!$searchTerm) {
+                return response()->json(['success' => false, 'error' => 'Search term is required'], 400);
+            }
+
+            $youtubeService = new YoutubeService();
+            $videos = $youtubeService->getSearchedVideo($searchTerm);
+
+            if (empty($videos)) {
+                return response()->json(['success' => false, 'error' => 'No videos found for the search term'], 404);
+            }
+
+            $data = [
+                'success' => true,
+                'data' => $videos
+            ];
+            return response()->json($data);
+
+
+        }catch(\Exception $e){
+            $data = [
+                'success' => false,
+                'error' => 'An error occurred while fetching searched video data.',
+                'message' => $e->getMessage()
+            ];
+            return response()->json($data);
+        }
+        $searchTerm = $request->input('search');
+    }
+
     public function getPlaylists(Request $request){
         try{
             $offset = $request->offset ?? 0;
@@ -541,7 +573,7 @@ class ApiController extends Controller
             $data = [
                 'error' => false,
                 'data' => [
-                    $content
+                    "content"=>$content
                 ]
             ];
             return response()->json($data);

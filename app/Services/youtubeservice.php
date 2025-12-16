@@ -176,5 +176,58 @@ class YoutubeService {
         }
     }
 
+     // NOTE: For search particular video from Youtube
+
+    public function getSearchedVideo(){
+        $searchQuery = request('search');
+        $pageToken = request('pageToken');
+        $maxResults = request('limit', 9);
+
+        $params = [
+            'key' => $this->apikey,
+            'channelId' => $this->channelId,
+            'part' => 'snippet',
+            'q' => $searchQuery,
+            'type' => 'video',
+            'maxResults' => $maxResults,
+        ];
+
+        if ($pageToken) {
+            $params['pageToken'] = $pageToken;
+        }
+
+        $response = Http::get('https://www.googleapis.com/youtube/v3/search', $params);
+
+        if (!$response->successful()) {
+            Log::error('YouTube Search API failed', ['response' => $response->body()]);
+            return [
+                'data' => [],
+                'total' => 0,
+                'nextPageToken' => null,
+            ];
+        }
+
+        $json = $response->json();
+
+        $videos = collect($json['items'] ?? [])
+            ->filter(fn($item) => isset($item['id']['videoId']))
+            ->map(function ($item) {
+                return [
+                    "id" => $item['id']['videoId'],
+                    "title" => $item['snippet']['title'],
+                    "description" => $item['snippet']['description'],
+                    "thumbnail" => $item['snippet']['thumbnails']['high']['url'] ?? $item['snippet']['thumbnails']['default']['url'] ?? '',
+                    'url' => 'https://www.youtube.com/watch?v=' . $item['id']['videoId'],
+                ];
+            })->values()->toArray();
+
+        return [
+            'data' => $videos,
+            'total' => $json['pageInfo']['totalResults'] ?? 0,
+            'nextPageToken' => $json['nextPageToken'] ?? null,
+            'prevPageToken' => $json['prevPageToken'] ?? null,
+        ];
+    }
+
 
 }
